@@ -41,6 +41,7 @@ nav:
       - lz4: repos/lz4.md
       - lzfse: repos/lzfse.md
       - lzfsec: repos/lzfsec.md
+      - lz4c: repos/lz4c.md
   - Content-addressable hashes:
       - blake3: repos/blake3.md
       - b3sum: repos/b3sum.md
