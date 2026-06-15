@@ -1,0 +1,60 @@
+site_name: go-compressions docs
+site_description: Pure-Go byte-stream transformation primitives — lossless compression codecs (LZ4, LZFSE/LZVN) and content-addressable hash functions (BLAKE3, b3sum). Allocation-aware, multi-arch, zero-cgo, 100% test coverage.
+site_url: https://go-compressions.github.io/docs/
+repo_url: https://github.com/go-compressions
+repo_name: go-compressions
+edit_uri: ""
+
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.instant
+    - content.code.copy
+    - search.suggest
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+nav:
+  - Home: index.md
+  - Methodology: methodology.md
+  - Compression codecs:
+      - lz4: repos/lz4.md
+      - lzfse: repos/lzfse.md
+      - lzfsec: repos/lzfsec.md
+  - Content-addressable hashes:
+      - blake3: repos/blake3.md
+      - b3sum: repos/b3sum.md
+  - Contributing: contributing.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
