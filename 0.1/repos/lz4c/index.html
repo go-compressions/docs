@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://go-compressions.github.io/docs/0.1/repos/lz4/">
+        <link rel="canonical" href="https://go-compressions.github.io/docs/0.1/repos/lz4c/">
       
       
-        <link rel="prev" href="../../methodology/">
+        <link rel="prev" href="../lzfsec/">
       
       
-        <link rel="next" href="../lzfse/">
+        <link rel="next" href="../blake3/">
       
       
       <link rel="icon" href="../../assets/logo.svg">
@@ -24,7 +24,7 @@
     
     
       
-        <title>lz4 - go-compressions docs</title>
+        <title>lz4c - go-compressions docs</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lz4" class="md-skip">
+        <a href="#lz4c" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              lz4
+              lz4c
             
           </span>
         </div>
@@ -338,30 +338,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    lz4
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../lz4/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -370,71 +350,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#api" class="md-nav__link">
-    <span class="md-ellipsis">
-      API
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-compressor" class="md-nav__link">
-    <span class="md-ellipsis">
-      The compressor
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#honest-verdict" class="md-nav__link">
-    <span class="md-ellipsis">
-      Honest verdict
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -486,10 +401,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../lz4c/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    lz4c
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -498,6 +433,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#container-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Container format
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      License
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -646,36 +655,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#api" class="md-nav__link">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
-      API
+      Usage
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-compressor" class="md-nav__link">
+  <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
-      The compressor
+      Examples
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#performance" class="md-nav__link">
+  <a href="#container-format" class="md-nav__link">
     <span class="md-ellipsis">
-      Performance
+      Container format
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#honest-verdict" class="md-nav__link">
+  <a href="#build" class="md-nav__link">
     <span class="md-ellipsis">
-      Honest verdict
+      Build
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
     </span>
   </a>
   
@@ -705,99 +723,78 @@
                   
 
 
-<h1 id="lz4">lz4<a class="headerlink" href="#lz4" title="Permanent link">&para;</a></h1>
-<p>A clean pure-Go implementation of the <strong>LZ4 block format</strong> —
-<code>CompressBlock</code> / <code>DecompressBlock</code> — wire-compatible with the reference and
-cross-checked against <code>pierrec/lz4</code>. Blocks are mutually decodable with
-<code>pierrec</code> in <strong>both</strong> directions, verified on arm64 and amd64.
-<a href="https://github.com/go-compressions/lz4">Repository →</a></p>
-<h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">lz4</span><span class="p">.</span><span class="nx">CompressBlock</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">lz4</span><span class="p">.</span><span class="nx">DecompressBlock</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">src</span><span class="p">))</span>
+<h1 id="lz4c">lz4c<a class="headerlink" href="#lz4c" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/go-compressions/lz4c/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-compressions/lz4c/actions/workflows/ci.yml/badge.svg" /></a>
+<img alt="coverage" src="https://img.shields.io/badge/coverage-100%25-brightgreen" /></p>
+<p>A pure-Go CLI for <a href="../lz4/"><code>go-compressions/lz4</code></a> — the <strong>LZ4 block format</strong> on
+the command line, as a single CGO-free static binary.
+<a href="https://github.com/go-compressions/lz4c">Repository →</a></p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>lz4c<span class="w"> </span><span class="o">[</span>-d<span class="o">]</span><span class="w"> </span><span class="o">[</span>-i<span class="w"> </span>input<span class="o">]</span><span class="w"> </span><span class="o">[</span>-o<span class="w"> </span>output<span class="o">]</span><span class="w"> </span><span class="o">[</span>-v<span class="o">]</span>
 </code></pre></div>
-<p>The compressor delegates LZ4's hot "count the matching bytes" inner loop
-(<code>LZ4_count</code>) to <a href="https://github.com/go-compressions/matchlen">matchlen</a>, whose
-SIMD common-prefix kernel makes match extension fast. As of <code>matchlen</code>
-<strong>v0.3.0</strong> that kernel ships SIMD on <strong>all six</strong> of Go's 64-bit targets — amd64
-(SSE2), arm64 (NEON), riscv64 (RVV), loong64 (LSX), ppc64le (VSX) and s390x
-(vector facility). lz4 needs <strong>no code change</strong> to benefit: <code>MatchLen</code>
-dispatches per-arch, so the bulk match runs vectorized on ppc64le and s390x too
-(those two paths are qemu-validated — correct and bit-identical to scalar;
-native throughput is pending hardware).</p>
-<h2 id="the-compressor">The compressor<a class="headerlink" href="#the-compressor" title="Permanent link">&para;</a></h2>
-<p>The parse is a single-cell hash table keyed on a <strong>6-byte sequence</strong> (the
-reference LZ4 / <code>pierrec</code> fast-mode hash, far better dispersed than a 4-byte
-key). Each step probes three adjacent positions (<code>ip</code>, <code>ip+1</code>, <code>ip+2</code>) from one
-8-byte load, inserting every position so later matches see more candidates, and
-ramps its skip distance on incompressible spans. On a hit it applies <strong>lazy
-matching</strong> — it peeks one byte ahead and, if <code>ip+1</code> yields a strictly longer
-match, defers the current one — capped to short matches so the lookahead cost is
-only paid where it can help. Match-length extension is delegated to <code>matchlen</code>'s
-SIMD kernel.</p>
-<p>LZ4 is the ideal <code>matchlen</code> consumer because it has <strong>no entropy-coding stage</strong> —
-encode time is dominated by match-finding and extension, so a faster <code>MatchLen</code>
-shows up end-to-end (unlike codecs whose time goes to FSE/Huffman).</p>
-<h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
-<p>Encoded as single LZ4 blocks, three representative corpora — two text (Project
-Gutenberg <code>pg1661</code> Mark Twain, and the Twain corpus) and one binary (a kernel
-<code>bzImage</code>) — <code>-count=8</code> medians, <strong>native arm64 (Apple Silicon)</strong>:</p>
+<ul>
+<li>Compresses by default; <code>-d</code> / <code>--decompress</code> decompresses.</li>
+<li><code>-i</code> / <code>--input</code> defaults to stdin.</li>
+<li><code>-o</code> / <code>--output</code> defaults to stdout.</li>
+<li><code>-v</code> / <code>--verbose</code> prints a summary line to stderr with byte counts,
+  compression ratio (compress only), and elapsed time:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>compressed 65536 → 12345 bytes (18.8%) in 4.231ms
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>decompressed 12345 → 65536 bytes in 1.872ms
+</code></pre></div>
+<p>Without <code>-v</code>, lz4c stays silent so the binary output on stdout is safe to
+  pipe.</p>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Compress a file to disk.</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>lz4c<span class="w"> </span>-i<span class="w"> </span>big.bin<span class="w"> </span>-o<span class="w"> </span>big.bin.lz4
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Round-trip through a pipe.</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>cat<span class="w"> </span>big.bin<span class="w"> </span><span class="p">|</span><span class="w"> </span>lz4c<span class="w"> </span><span class="p">|</span><span class="w"> </span>lz4c<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>restored.bin
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Show timing + ratio.</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>lz4c<span class="w"> </span>-v<span class="w"> </span>-i<span class="w"> </span>big.bin<span class="w"> </span>-o<span class="w"> </span>big.bin.lz4
+</code></pre></div>
+<h2 id="container-format">Container format<a class="headerlink" href="#container-format" title="Permanent link">&para;</a></h2>
+<p>The <code>lz4</code> library exposes the LZ4 <em>block</em> codec only, which does not record the
+decompressed length. lz4c frames each block with a fixed 12-byte header so a
+stream is self-describing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>magic   [4]byte  // &quot;LZ4C&quot;
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>rawLen  uint64   // little-endian length of the original data
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>...block...      // a standard LZ4 block, byte-for-byte
+</code></pre></div>
+<p>The payload after the header is an unmodified, standard LZ4 block and stays
+wire-compatible with <a href="https://github.com/pierrec/lz4"><code>pierrec/lz4</code></a>: strip the
+12-byte header and any LZ4 block decoder consumes the remainder.</p>
+<h2 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>go<span class="w"> </span>build<span class="w"> </span>./cmd/lz4c<span class="w">        </span><span class="c1"># or: task build</span>
+</code></pre></div>
+<h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
+<p><code>task test</code> reports <strong>100% statement coverage</strong> across all three packages:</p>
 <table>
 <thead>
 <tr>
-<th>corpus</th>
-<th style="text-align: right;">this package</th>
-<th style="text-align: right;"><code>pierrec/lz4</code></th>
-<th style="text-align: right;">speed vs <code>pierrec</code></th>
-<th style="text-align: right;">our size</th>
-<th style="text-align: right;"><code>pierrec</code> size</th>
-<th style="text-align: right;">size vs <code>pierrec</code></th>
+<th>Package</th>
+<th>Role</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>text <code>pg1661</code></td>
-<td style="text-align: right;">208 MB/s</td>
-<td style="text-align: right;">301 MB/s</td>
-<td style="text-align: right;">0.69×</td>
-<td style="text-align: right;"><strong>0.528</strong></td>
-<td style="text-align: right;">0.553</td>
-<td style="text-align: right;"><strong>−4.6%</strong></td>
+<td><code>cmd/lz4c</code></td>
+<td><code>main</code> and the cobra root command</td>
 </tr>
 <tr>
-<td>text Twain</td>
-<td style="text-align: right;">205 MB/s</td>
-<td style="text-align: right;">285 MB/s</td>
-<td style="text-align: right;">0.72×</td>
-<td style="text-align: right;"><strong>0.548</strong></td>
-<td style="text-align: right;">0.575</td>
-<td style="text-align: right;"><strong>−4.6%</strong></td>
+<td><code>cmd/lz4c/lz4io</code></td>
+<td>container framing over the LZ4 blocks</td>
 </tr>
 <tr>
-<td>binary <code>bzImage</code></td>
-<td style="text-align: right;">249 MB/s</td>
-<td style="text-align: right;">370 MB/s</td>
-<td style="text-align: right;">0.67×</td>
-<td style="text-align: right;"><strong>0.638</strong></td>
-<td style="text-align: right;">0.653</td>
-<td style="text-align: right;"><strong>−2.2%</strong></td>
+<td><code>cmd/lz4c/internal/cmdio</code></td>
+<td>shared stdin/stdout/file IO helpers</td>
 </tr>
 </tbody>
 </table>
-<p>On the QEMU x86_64 lima VM (TCG, so absolutes are low and noisy) the encoder
-lands at ≈0.5–0.7× <code>pierrec</code>'s throughput with the <strong>same</strong> size advantage — the
-parse is deterministic, so sizes match arm64 exactly, and the compressed output
-is byte-identical and decodes both ways with <code>pierrec</code>.</p>
-<h2 id="honest-verdict">Honest verdict<a class="headerlink" href="#honest-verdict" title="Permanent link">&para;</a></h2>
-<p>This pass <strong>beats <code>pierrec</code> on compression ratio</strong> on every corpus (text ≈4.6%
-smaller, binary ≈2.2% smaller) — the 6-byte hash, 3-position probe and lazy
-matching are real wins, and they fixed the prior parse, which was actually 7–8%
-<em>worse</em> than <code>pierrec</code> on text. It does <strong>not</strong> beat <code>pierrec</code> on <strong>speed</strong>:
-<code>pierrec</code> stays ahead at ≈1.4× (we are at ~0.67–0.72× native arm64). That gap is
-the parse/table, not the kernel — <code>pierrec</code> uses a half-the-size 16-bit position
-table (better cache footprint) and skips lazy matching in fast mode, trading a
-little ratio for speed; we make the opposite trade. The SIMD <code>matchlen</code>
-extension is correct and in use, but match extension is only ~10% of encode time
-here — the bottleneck is match-<em>finding</em>.</p>
+<p>The package ships a <a href="https://taskfile.dev">Taskfile</a> (<code>task lint|build|test|ci</code>)
+used by both local development and CI; Renovate auto-merges patch/minor <code>gomod</code>
+updates.</p>
 <h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
 <p>BSD-3-Clause.</p>
 
