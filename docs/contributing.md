@@ -22,8 +22,10 @@ organizations.
   test on the native runner.
 - **Honest numbers.** Report wins, parities, and the cases where this code
   trails the state of the art alike. Headline benchmarks come from native runs,
-  never from emulation; ppc64le/s390x are labelled correctness-validated with
-  native perf pending.
+  never from emulation; ppc64le is now natively measured on real POWER10 silicon
+  (GCC Compile Farm), while s390x stays correctness-validated with native perf
+  pending an IBM Z runner. Six SIMD targets, validated on seven architectures
+  (the seventh, ppc64 big-endian, is build + test validated on real POWER9).
 - **English only** for all repository content (issues, PRs, commits, comments).
 
 ## Adding or changing a codec / hash
@@ -39,8 +41,9 @@ organizations.
    kernel, commit the generated `.s`, and add a force test for each dispatch
    branch. Verify bit-identical to scalar.
 5. **Validate on real hardware** — native arm64 for headline throughput, amd64
-   cross-check for byte-identical output, ppc64le/s390x under QEMU for
-   correctness.
+   cross-check for byte-identical output, **native ppc64le (POWER10) for measured
+   VSX throughput**, s390x under QEMU for correctness, and **ppc64 big-endian
+   (POWER9) for build + test validation** of the portable fallback path.
 6. **Confirm 100% coverage:**
    ```bash
    go test -coverprofile=cover.out ./...

@@ -74,12 +74,22 @@ Correctness is proven against the reference; the headline benchmarks come from
   is low and noisy and is **never quoted as a headline**; it is used only to
   prove the compressed output is byte-identical to the arm64 run and decodes both
   ways with the reference.
-- **ppc64le / s390x are qemu-validated for correctness, native perf pending.**
-  The `matchlen` and `blake3` kernels run the official vectors and the
-  byte-identical differential suites under QEMU (and on **big-endian s390x** the
-  output is proven bit-exact), but there is **no GitHub-hosted POWER or IBM Z
-  runner**, so native throughput is not measured — and is deliberately not
-  invented from the emulated runs.
+- **Native ppc64le** on real POWER10 silicon
+  ([GCC Compile Farm](https://portal.cfarm.net/), VSX, Go 1.26.4, June 2026).
+  The "native POWER perf pending" caveat is now resolved for ppc64le: `lz4`
+  encode (matchlen-accelerated) runs **1.8× scalar** (1174 vs 644 MB/s) and
+  **beats `pierrec/lz4`** (1174 vs 1012 MB/s), and `blake3` `mix4` runs **4.5×
+  scalar**.
+- **s390x stays qemu-validated for correctness, native perf pending.** The
+  `matchlen` and `blake3` kernels run the official vectors and the byte-identical
+  differential suites under QEMU, and on **big-endian s390x** the vector output is
+  proven bit-exact — but there is **no GitHub-hosted IBM Z runner**, so native
+  throughput is not measured and is deliberately not invented from emulated runs.
+- **Seventh architecture: ppc64 (big-endian), build + test validated.** On real
+  POWER9 silicon, every library (`lz4`, `lzfse`, `blake3` / `b3sum`) builds and
+  passes its tests **bit-exact via the portable fallback path** — distinct from
+  the s390x vector kernel. SIMD stays six targets; correctness is **validated on
+  seven architectures**.
 
 ## 5. 100% statement coverage, enforced as a CI gate
 

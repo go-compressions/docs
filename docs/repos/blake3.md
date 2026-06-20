@@ -65,9 +65,15 @@ targets — cgo-free, no `GOEXPERIMENT` — using
 `mix4` round function: NEON (arm64), SSE2 (amd64), LSX (loong64), RVV (riscv64),
 VSX (ppc64le) and the vector facility (s390x, **big-endian**). It is
 bit-identical to the scalar path (verified against the official BLAKE3 vectors)
-and falls back to scalar for small inputs. The ppc64le and s390x paths are
-qemu-validated (correct + bit-identical); native throughput on those two is
-pending hardware.
+and falls back to scalar for small inputs. **ppc64le is now natively measured on
+real POWER10 silicon** ([GCC Compile Farm](https://portal.cfarm.net/), VSX,
+Go 1.26.4): `mix4` runs **4.5× scalar**. The s390x path stays qemu-validated
+(correct + bit-identical), with native throughput pending an IBM Z runner.
+
+Beyond the six SIMD targets, `blake3` also **builds and passes its tests
+bit-exact on a seventh architecture, ppc64 (big-endian)**, on real POWER9 silicon
+via the portable fallback path — six SIMD targets, validated on seven
+architectures.
 
 ## Experimental archsimd path (`GOEXPERIMENT=simd`)
 

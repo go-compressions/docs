@@ -47,11 +47,19 @@ The credibility is the honesty.
 The `matchlen` SIMD common-prefix primitive that powers [`lz4`](repos/lz4.md)'s
 match extension lives in the [go-simd](https://github.com/go-simd) family
 ([matchlen](https://github.com/go-compressions/matchlen) is mirrored here) — its
-kernel ships real SIMD on all six of Go's 64-bit targets (amd64, arm64, riscv64,
-loong64, ppc64le, s390x). The ppc64le and s390x paths in both `matchlen` and
-`blake3` are **qemu-validated for correctness** (bit-identical to scalar); native
-throughput on those two is **pending hardware** and is never quoted as a
-headline.
+kernel ships real SIMD on all six of Go's 64-bit SIMD targets (amd64, arm64,
+riscv64, loong64, ppc64le, s390x). **ppc64le is now natively measured on real
+POWER10 silicon** ([GCC Compile Farm](https://portal.cfarm.net/), VSX, Go 1.26.4):
+`lz4` encode runs **1.8× scalar** (1174 vs 644 MB/s) and **beats `pierrec/lz4`**
+(1174 vs 1012 MB/s), with `blake3` `mix4` at **4.5× scalar**. The s390x path stays
+**qemu-validated for correctness** (bit-identical to scalar); its native throughput
+is **pending an IBM Z runner** and is never quoted as a headline.
+
+Beyond the six SIMD targets, every library (`lz4`, `lzfse`, `blake3` / `b3sum`)
+also **builds and passes its tests bit-exact on a seventh architecture, ppc64
+(big-endian)**, on real POWER9 silicon via the portable fallback path — proving
+big-endian correctness distinct from the s390x vector kernel. **Six SIMD targets,
+validated on seven architectures.**
 
 Read the [methodology](methodology.md) for the wire-compat → fuzz →
 real-hardware → 100%-coverage pipeline every repo follows.
