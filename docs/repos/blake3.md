@@ -67,7 +67,11 @@ VSX (ppc64le) and the vector facility (s390x, **big-endian**). It is
 bit-identical to the scalar path (verified against the official BLAKE3 vectors)
 and falls back to scalar for small inputs. **ppc64le is now natively measured on
 real POWER10 silicon** ([GCC Compile Farm](https://portal.cfarm.net/), VSX,
-Go 1.26.4): `mix4` runs **4.5× scalar**. The s390x path stays qemu-validated
+Go 1.26.4): `mix4` runs **4.5× scalar**. **riscv64 is now natively measured too**
+on a SpacemiT X60 (RVV 1.0, a low-power in-order core — the only widely-available
+RVV silicon; GCC Compile Farm, Go 1.26.4): `mix4` runs **2.9× scalar** (3024 vs
+8782 ns) with `FillChunk` ~2.0× (275 vs 137 MB/s); an out-of-order RVV core would
+likely do better. The s390x path stays qemu-validated
 (correct + bit-identical), with native throughput pending an IBM Z runner.
 
 Beyond the six SIMD targets, `blake3` also **builds and passes its tests

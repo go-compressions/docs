@@ -51,7 +51,12 @@ kernel ships real SIMD on all six of Go's 64-bit SIMD targets (amd64, arm64,
 riscv64, loong64, ppc64le, s390x). **ppc64le is now natively measured on real
 POWER10 silicon** ([GCC Compile Farm](https://portal.cfarm.net/), VSX, Go 1.26.4):
 `lz4` encode runs **1.8× scalar** (1174 vs 644 MB/s) and **beats `pierrec/lz4`**
-(1174 vs 1012 MB/s), with `blake3` `mix4` at **4.5× scalar**. The s390x path stays
+(1174 vs 1012 MB/s), with `blake3` `mix4` at **4.5× scalar**. **riscv64 is now
+natively measured too** on a SpacemiT X60 (RVV 1.0, a low-power in-order core —
+the only widely-available RVV silicon; GCC Compile Farm, Go 1.26.4): `lz4` encode
+runs **1.45× scalar** (110 vs 76 MB/s) and **beats `pierrec/lz4`** (110 vs 83 MB/s,
+~1.32×), with `blake3` `mix4` at **2.9× scalar**; an out-of-order RVV core would
+likely do better. The s390x path stays
 **qemu-validated for correctness** (bit-identical to scalar); its native throughput
 is **pending an IBM Z runner** and is never quoted as a headline.
 

@@ -80,6 +80,15 @@ Correctness is proven against the reference; the headline benchmarks come from
   encode (matchlen-accelerated) runs **1.8× scalar** (1174 vs 644 MB/s) and
   **beats `pierrec/lz4`** (1174 vs 1012 MB/s), and `blake3` `mix4` runs **4.5×
   scalar**.
+- **Native riscv64** on a real SpacemiT X60
+  ([GCC Compile Farm](https://portal.cfarm.net/), RVV 1.0, Go 1.26.4, June 2026).
+  The X60 is a low-power in-order core and the only widely-available RVV
+  silicon; an out-of-order RVV core would likely do better. The "native RVV perf
+  pending" caveat is now resolved for riscv64: `lz4` encode (matchlen-accelerated)
+  runs **1.45× scalar** (110 vs 76 MB/s) and **beats `pierrec/lz4`** (110 vs 83
+  MB/s, ~1.32×), `blake3` `mix4` runs **2.9× scalar** (3024 vs 8782 ns) with
+  `FillChunk` ~2.0× (275 vs 137 MB/s), and `matchlen` runs **~5.8× scalar** (1236
+  vs 214 MB/s).
 - **s390x stays qemu-validated for correctness, native perf pending.** The
   `matchlen` and `blake3` kernels run the official vectors and the byte-identical
   differential suites under QEMU, and on **big-endian s390x** the vector output is

@@ -23,6 +23,10 @@ dispatches per-arch, so the bulk match runs vectorized on ppc64le and s390x too.
 **ppc64le is now natively measured on real POWER10 silicon**
 ([GCC Compile Farm](https://portal.cfarm.net/), VSX, Go 1.26.4): lz4 encode runs
 **1.8× scalar** (1174 vs 644 MB/s) and **beats `pierrec/lz4`** (1174 vs 1012 MB/s).
+**riscv64 is now natively measured too** on a SpacemiT X60 (RVV 1.0, a low-power
+in-order core — the only widely-available RVV silicon; GCC Compile Farm, Go
+1.26.4): encode runs **1.45× scalar** (110 vs 76 MB/s) and **beats `pierrec/lz4`**
+(110 vs 83 MB/s, ~1.32×); an out-of-order RVV core would likely do better.
 The s390x path stays qemu-validated — correct and bit-identical to scalar — with
 native throughput pending an IBM Z runner.
 

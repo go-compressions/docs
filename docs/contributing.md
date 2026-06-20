@@ -23,7 +23,8 @@ organizations.
 - **Honest numbers.** Report wins, parities, and the cases where this code
   trails the state of the art alike. Headline benchmarks come from native runs,
   never from emulation; ppc64le is now natively measured on real POWER10 silicon
-  (GCC Compile Farm), while s390x stays correctness-validated with native perf
+  and riscv64 on a real SpacemiT X60 (RVV 1.0, a low-power in-order core — the
+  only widely-available RVV silicon; GCC Compile Farm), while s390x stays correctness-validated with native perf
   pending an IBM Z runner. Six SIMD targets, validated on seven architectures
   (the seventh, ppc64 big-endian, is build + test validated on real POWER9).
 - **English only** for all repository content (issues, PRs, commits, comments).
@@ -42,7 +43,8 @@ organizations.
    branch. Verify bit-identical to scalar.
 5. **Validate on real hardware** — native arm64 for headline throughput, amd64
    cross-check for byte-identical output, **native ppc64le (POWER10) for measured
-   VSX throughput**, s390x under QEMU for correctness, and **ppc64 big-endian
+   VSX throughput**, **native riscv64 (SpacemiT X60, RVV 1.0) for measured RVV
+   throughput**, s390x under QEMU for correctness, and **ppc64 big-endian
    (POWER9) for build + test validation** of the portable fallback path.
 6. **Confirm 100% coverage:**
    ```bash
