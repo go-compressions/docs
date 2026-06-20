@@ -687,8 +687,10 @@ organizations.</p>
   test on the native runner.</li>
 <li><strong>Honest numbers.</strong> Report wins, parities, and the cases where this code
   trails the state of the art alike. Headline benchmarks come from native runs,
-  never from emulation; ppc64le/s390x are labelled correctness-validated with
-  native perf pending.</li>
+  never from emulation; ppc64le is now natively measured on real POWER10 silicon
+  (GCC Compile Farm), while s390x stays correctness-validated with native perf
+  pending an IBM Z runner. Six SIMD targets, validated on seven architectures
+  (the seventh, ppc64 big-endian, is build + test validated on real POWER9).</li>
 <li><strong>English only</strong> for all repository content (issues, PRs, commits, comments).</li>
 </ul>
 <h2 id="adding-or-changing-a-codec-hash">Adding or changing a codec / hash<a class="headerlink" href="#adding-or-changing-a-codec-hash" title="Permanent link">&para;</a></h2>
@@ -704,8 +706,9 @@ organizations.</p>
    kernel, commit the generated <code>.s</code>, and add a force test for each dispatch
    branch. Verify bit-identical to scalar.</li>
 <li><strong>Validate on real hardware</strong> — native arm64 for headline throughput, amd64
-   cross-check for byte-identical output, ppc64le/s390x under QEMU for
-   correctness.</li>
+   cross-check for byte-identical output, <strong>native ppc64le (POWER10) for measured
+   VSX throughput</strong>, s390x under QEMU for correctness, and <strong>ppc64 big-endian
+   (POWER9) for build + test validation</strong> of the portable fallback path.</li>
 <li><strong>Confirm 100% coverage:</strong>
    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-coverprofile<span class="o">=</span>cover.out<span class="w"> </span>./...
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>go<span class="w"> </span>tool<span class="w"> </span>cover<span class="w"> </span>-func<span class="o">=</span>cover.out<span class="w">   </span><span class="c1"># must read 100.0%</span>

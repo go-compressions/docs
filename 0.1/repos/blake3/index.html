@@ -804,9 +804,14 @@ targets — cgo-free, no <code>GOEXPERIMENT</code> — using
 <code>mix4</code> round function: NEON (arm64), SSE2 (amd64), LSX (loong64), RVV (riscv64),
 VSX (ppc64le) and the vector facility (s390x, <strong>big-endian</strong>). It is
 bit-identical to the scalar path (verified against the official BLAKE3 vectors)
-and falls back to scalar for small inputs. The ppc64le and s390x paths are
-qemu-validated (correct + bit-identical); native throughput on those two is
-pending hardware.</p>
+and falls back to scalar for small inputs. <strong>ppc64le is now natively measured on
+real POWER10 silicon</strong> (<a href="https://portal.cfarm.net/">GCC Compile Farm</a>, VSX,
+Go 1.26.4): <code>mix4</code> runs <strong>4.5× scalar</strong>. The s390x path stays qemu-validated
+(correct + bit-identical), with native throughput pending an IBM Z runner.</p>
+<p>Beyond the six SIMD targets, <code>blake3</code> also <strong>builds and passes its tests
+bit-exact on a seventh architecture, ppc64 (big-endian)</strong>, on real POWER9 silicon
+via the portable fallback path — six SIMD targets, validated on seven
+architectures.</p>
 <h2 id="experimental-archsimd-path-goexperimentsimd">Experimental archsimd path (<code>GOEXPERIMENT=simd</code>)<a class="headerlink" href="#experimental-archsimd-path-goexperimentsimd" title="Permanent link">&para;</a></h2>
 <p>A second, opt-in SIMD path uses Go's experimental
 <a href="https://pkg.go.dev/simd/archsimd"><code>simd/archsimd</code></a> intrinsics (still pure Go —

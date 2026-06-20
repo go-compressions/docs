@@ -718,12 +718,18 @@ cross-checked against <code>pierrec/lz4</code>. Blocks are mutually decodable wi
 <p>The compressor delegates LZ4's hot "count the matching bytes" inner loop
 (<code>LZ4_count</code>) to <a href="https://github.com/go-compressions/matchlen">matchlen</a>, whose
 SIMD common-prefix kernel makes match extension fast. As of <code>matchlen</code>
-<strong>v0.3.0</strong> that kernel ships SIMD on <strong>all six</strong> of Go's 64-bit targets — amd64
-(SSE2), arm64 (NEON), riscv64 (RVV), loong64 (LSX), ppc64le (VSX) and s390x
-(vector facility). lz4 needs <strong>no code change</strong> to benefit: <code>MatchLen</code>
-dispatches per-arch, so the bulk match runs vectorized on ppc64le and s390x too
-(those two paths are qemu-validated — correct and bit-identical to scalar;
-native throughput is pending hardware).</p>
+<strong>v0.3.0</strong> that kernel ships SIMD on <strong>all six</strong> of Go's 64-bit SIMD targets —
+amd64 (SSE2), arm64 (NEON), riscv64 (RVV), loong64 (LSX), ppc64le (VSX) and
+s390x (vector facility). lz4 needs <strong>no code change</strong> to benefit: <code>MatchLen</code>
+dispatches per-arch, so the bulk match runs vectorized on ppc64le and s390x too.
+<strong>ppc64le is now natively measured on real POWER10 silicon</strong>
+(<a href="https://portal.cfarm.net/">GCC Compile Farm</a>, VSX, Go 1.26.4): lz4 encode runs
+<strong>1.8× scalar</strong> (1174 vs 644 MB/s) and <strong>beats <code>pierrec/lz4</code></strong> (1174 vs 1012 MB/s).
+The s390x path stays qemu-validated — correct and bit-identical to scalar — with
+native throughput pending an IBM Z runner.</p>
+<p>Beyond the six SIMD targets, <code>lz4</code> also <strong>builds and passes its tests bit-exact
+on a seventh architecture, ppc64 (big-endian)</strong>, on real POWER9 silicon via the
+portable fallback path — six SIMD targets, validated on seven architectures.</p>
 <h2 id="the-compressor">The compressor<a class="headerlink" href="#the-compressor" title="Permanent link">&para;</a></h2>
 <p>The parse is a single-cell hash table keyed on a <strong>6-byte sequence</strong> (the
 reference LZ4 / <code>pierrec</code> fast-mode hash, far better dispersed than a 4-byte
