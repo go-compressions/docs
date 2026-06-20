@@ -817,6 +817,15 @@ kernel.</p>
   encode (matchlen-accelerated) runs <strong>1.8× scalar</strong> (1174 vs 644 MB/s) and
   <strong>beats <code>pierrec/lz4</code></strong> (1174 vs 1012 MB/s), and <code>blake3</code> <code>mix4</code> runs <strong>4.5×
   scalar</strong>.</li>
+<li><strong>Native riscv64</strong> on a real SpacemiT X60
+  (<a href="https://portal.cfarm.net/">GCC Compile Farm</a>, RVV 1.0, Go 1.26.4, June 2026).
+  The X60 is a low-power in-order core and the only widely-available RVV
+  silicon; an out-of-order RVV core would likely do better. The "native RVV perf
+  pending" caveat is now resolved for riscv64: <code>lz4</code> encode (matchlen-accelerated)
+  runs <strong>1.45× scalar</strong> (110 vs 76 MB/s) and <strong>beats <code>pierrec/lz4</code></strong> (110 vs 83
+  MB/s, ~1.32×), <code>blake3</code> <code>mix4</code> runs <strong>2.9× scalar</strong> (3024 vs 8782 ns) with
+  <code>FillChunk</code> ~2.0× (275 vs 137 MB/s), and <code>matchlen</code> runs <strong>~5.8× scalar</strong> (1236
+  vs 214 MB/s).</li>
 <li><strong>s390x stays qemu-validated for correctness, native perf pending.</strong> The
   <code>matchlen</code> and <code>blake3</code> kernels run the official vectors and the byte-identical
   differential suites under QEMU, and on <strong>big-endian s390x</strong> the vector output is

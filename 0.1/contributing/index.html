@@ -688,7 +688,8 @@ organizations.</p>
 <li><strong>Honest numbers.</strong> Report wins, parities, and the cases where this code
   trails the state of the art alike. Headline benchmarks come from native runs,
   never from emulation; ppc64le is now natively measured on real POWER10 silicon
-  (GCC Compile Farm), while s390x stays correctness-validated with native perf
+  and riscv64 on a real SpacemiT X60 (RVV 1.0, a low-power in-order core — the
+  only widely-available RVV silicon; GCC Compile Farm), while s390x stays correctness-validated with native perf
   pending an IBM Z runner. Six SIMD targets, validated on seven architectures
   (the seventh, ppc64 big-endian, is build + test validated on real POWER9).</li>
 <li><strong>English only</strong> for all repository content (issues, PRs, commits, comments).</li>
@@ -707,7 +708,8 @@ organizations.</p>
    branch. Verify bit-identical to scalar.</li>
 <li><strong>Validate on real hardware</strong> — native arm64 for headline throughput, amd64
    cross-check for byte-identical output, <strong>native ppc64le (POWER10) for measured
-   VSX throughput</strong>, s390x under QEMU for correctness, and <strong>ppc64 big-endian
+   VSX throughput</strong>, <strong>native riscv64 (SpacemiT X60, RVV 1.0) for measured RVV
+   throughput</strong>, s390x under QEMU for correctness, and <strong>ppc64 big-endian
    (POWER9) for build + test validation</strong> of the portable fallback path.</li>
 <li><strong>Confirm 100% coverage:</strong>
    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-coverprofile<span class="o">=</span>cover.out<span class="w"> </span>./...
