@@ -703,8 +703,8 @@ primitives side by side too. Different math, same engineering bar.</p>
 <p>The numbers on these pages are benchmarked, not hand-waved. Every page reports
 the <strong>honest headline</strong> — the wins <strong>and</strong> the cases where this code trails the
 state of the art. <a href="repos/lz4/"><code>lz4</code></a> <strong>beats <code>pierrec/lz4</code> on compression
-ratio</strong> on every corpus, but it is <strong>slower</strong> on speed, and that is reported as
-such. <a href="repos/blake3/"><code>blake3</code></a> is several times slower than a hand-written
+ratio</strong> on every corpus and now <strong>decodes at parity</strong> with <code>pierrec</code>'s arm64-asm
+decoder, but it is <strong>slower</strong> on encode speed, and that is reported as such. <a href="repos/blake3/"><code>blake3</code></a> is several times slower than a hand-written
 AVX2 implementation on a single core in its pure-Go default, and openly says so.
 The credibility is the honesty.</p>
 <h2 id="compression-codecs">Compression codecs<a class="headerlink" href="#compression-codecs" title="Permanent link">&para;</a></h2>
@@ -720,12 +720,12 @@ The credibility is the honesty.</p>
 <tr>
 <td><a href="repos/lz4/"><code>lz4</code></a></td>
 <td>LZ4 block format</td>
-<td><strong>beats <code>pierrec/lz4</code> on ratio</strong> (text ≈4.6% smaller, binary ≈2.2%); <strong>trails on speed</strong> (~0.67–0.72× native arm64) — the gap is match-<em>finding</em>, not the SIMD match-extension kernel</td>
+<td><strong>beats <code>pierrec/lz4</code> on ratio</strong> (text ≈4.6% smaller, binary ≈2.2%); <strong>decodes at parity</strong> with <code>pierrec</code>'s arm64-asm decoder (~1.0–1.4×, beating it on ooffice/sao); <strong>trails on encode speed</strong> (~0.67–0.72× native arm64) — the encode gap is match-<em>finding</em>, not the SIMD match-extension kernel</td>
 </tr>
 <tr>
 <td><a href="repos/lzfse/"><code>lzfse</code></a></td>
 <td>Apple LZFSE + LZVN</td>
-<td>byte-compatible with Apple's <code>liblzfse</code> (round-trips both ways); auto-picks LZVN ≤ 4 KiB, LZFSE above; 100% coverage with no-panic fuzz on adversarial input</td>
+<td>byte-compatible with Apple's <code>liblzfse</code> (round-trips both ways); ratio within ~1–3% of Apple, <strong>decode now within ~1.6–2.1×</strong> of Apple's <code>-O3</code> C reference (was ~2–3×); auto-picks LZVN ≤ 4 KiB, LZFSE above; 100% coverage with no-panic fuzz on adversarial input</td>
 </tr>
 <tr>
 <td><a href="repos/lzfsec/"><code>lzfsec</code></a></td>

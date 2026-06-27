@@ -426,6 +426,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#coverage-and-safety" class="md-nav__link">
     <span class="md-ellipsis">
       Coverage and safety
@@ -655,6 +664,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#coverage-and-safety" class="md-nav__link">
     <span class="md-ellipsis">
       Coverage and safety
@@ -758,6 +776,30 @@ vectorizable hot loop to accelerate the way an LZ match-finder has.</p>
   for types 7 / 8 / 11 / 12 (LZVN / LZFSE, inline + resource-fork variants).</li>
 <li><code>github.com/go-diskimages/tart-oci</code> — Tart layer decompression.</li>
 </ul>
+<h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
+<p>Benchmarked single-core on Apple M4 Max against Apple's <code>liblzfse</code> C reference
+built <code>-O3</code> (its fastest), timed in-memory on the Silesia corpus.</p>
+<ul>
+<li><strong>Ratio — at parity.</strong> Compressed size tracks Apple's to within ~1–3% on real
+  data (e.g. dickens 0.391 vs 0.379, samba 0.240 vs 0.241, nci 0.099 vs 0.096);
+  level on synthetic inputs.</li>
+<li><strong>Decode — now close.</strong> Two passes of decode-path work (overlap-aware bulk
+  copy + word-at-a-time FSE refill, then an index-write LMD loop with fixed
+  16-byte short-run copies and reused per-block scratch, 2026-06-24) made decode
+  <strong>1.1–1.6× faster</strong> than the prior decoder and shrank the gap to Apple's <code>-O3</code>
+  C reference from <strong>~2–3×</strong> to <strong>~1.6–2.1×</strong> — real files now decode at ~½–0.6×
+  the reference (dickens 611 vs 1281 MB/s).</li>
+<li><strong>Compression speed — still lags.</strong> Encode runs at roughly ¼–⅓ of the
+  reference (dickens 33 vs 124 MB/s); the match-finder is the next target.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Cross-compatibility (known limitation)</p>
+<p>Our V2 FSE bitstream layout is <strong>not yet byte-identical</strong> to Apple's: a
+stream we produce does not decode with Apple's <code>lzfse</code> CLI and vice versa,
+despite both using the <code>bvx2</code> magic. Round-trip within our own codec is
+correct, and Apple-produced streams round-trip through our <code>Decompress</code>. Bit-
+exact interop in the <em>encode</em> direction is tracked as an open action item.</p>
+</div>
 <h2 id="coverage-and-safety">Coverage and safety<a class="headerlink" href="#coverage-and-safety" title="Permanent link">&para;</a></h2>
 <p><code>task test</code> reports <strong>100% statement coverage</strong> (<code>cover.out</code>). The corruption /
 random-garbage fuzz suites assert <strong>no panic</strong>, so the decoder is safe to call on
