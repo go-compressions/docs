@@ -121,7 +121,8 @@ that proves both round-trip fidelity and no-panic safety, real-hardware
 validation that refuses to trust emulation for headline numbers (and
 qemu-correctness validation where no native runner exists), and a coverage gate
 that refuses to ship an unexercised branch — is what lets go-compressions publish
-**honest** numbers: `lz4` says plainly that it beats `pierrec` on ratio but
-trails on speed, and `blake3`'s pure-Go default openly trails hand-written AVX2
+**honest** numbers: `lz4` says plainly that it beats `pierrec` on ratio and
+decodes at parity with its arm64-asm decoder, while trailing on encode speed, and
+`blake3`'s pure-Go default openly trails hand-written AVX2
 on a single core, while both keep portability and bit-exact correctness as
 non-negotiables.

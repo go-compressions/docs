@@ -67,13 +67,26 @@ lands at ≈0.5–0.7× `pierrec`'s throughput with the **same** size advantage 
 parse is deterministic, so sizes match arm64 exactly, and the compressed output
 is byte-identical and decodes both ways with `pierrec`.
 
+### Decode — at parity with the asm reference
+
+After the decode hot loop was reshaped to `pierrec`'s pure-Go structure
+(preallocated index-written buffer + two ≤16-byte fixed-copy shortcuts,
+2026-06-24), real-file decode is now **1.9–5.0× faster** than the prior decoder,
+and the gap to `pierrec`'s *hand-written arm64-assembly* decoder collapsed from
+**3–6×** down to **~1.0–1.4×** — effective parity. We *beat* it on ooffice
+(0.95×) and sao (0.83×) and stay within ~25% on the remaining Silesia text files;
+against `pierrec`'s pure-Go decoder (`-tags noasm`) we are roughly **2× faster**,
+so the residual is purely `pierrec`'s per-arch asm, not an algorithmic gap.
+
 ## Honest verdict
 
 This pass **beats `pierrec` on compression ratio** on every corpus (text ≈4.6%
 smaller, binary ≈2.2% smaller) — the 6-byte hash, 3-position probe and lazy
 matching are real wins, and they fixed the prior parse, which was actually 7–8%
-*worse* than `pierrec` on text. It does **not** beat `pierrec` on **speed**:
-`pierrec` stays ahead at ≈1.4× (we are at ~0.67–0.72× native arm64). That gap is
+*worse* than `pierrec` on text. On **decode** it now reaches **parity** with
+`pierrec`'s arm64-asm decoder (~1.0–1.4×, beating it on ooffice and sao). It does
+**not** beat `pierrec` on **encode speed**: `pierrec` stays ahead at ≈1.4× (we
+are at ~0.67–0.72× native arm64). That encode gap is
 the parse/table, not the kernel — `pierrec` uses a half-the-size 16-bit position
 table (better cache footprint) and skips lazy matching in fast mode, trading a
 little ratio for speed; we make the opposite trade. The SIMD `matchlen`

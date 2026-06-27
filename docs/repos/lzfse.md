@@ -51,6 +51,30 @@ vectorizable hot loop to accelerate the way an LZ match-finder has.
   for types 7 / 8 / 11 / 12 (LZVN / LZFSE, inline + resource-fork variants).
 - `github.com/go-diskimages/tart-oci` — Tart layer decompression.
 
+## Performance
+
+Benchmarked single-core on Apple M4 Max against Apple's `liblzfse` C reference
+built `-O3` (its fastest), timed in-memory on the Silesia corpus.
+
+- **Ratio — at parity.** Compressed size tracks Apple's to within ~1–3% on real
+  data (e.g. dickens 0.391 vs 0.379, samba 0.240 vs 0.241, nci 0.099 vs 0.096);
+  level on synthetic inputs.
+- **Decode — now close.** Two passes of decode-path work (overlap-aware bulk
+  copy + word-at-a-time FSE refill, then an index-write LMD loop with fixed
+  16-byte short-run copies and reused per-block scratch, 2026-06-24) made decode
+  **1.1–1.6× faster** than the prior decoder and shrank the gap to Apple's `-O3`
+  C reference from **~2–3×** to **~1.6–2.1×** — real files now decode at ~½–0.6×
+  the reference (dickens 611 vs 1281 MB/s).
+- **Compression speed — still lags.** Encode runs at roughly ¼–⅓ of the
+  reference (dickens 33 vs 124 MB/s); the match-finder is the next target.
+
+!!! note "Cross-compatibility (known limitation)"
+    Our V2 FSE bitstream layout is **not yet byte-identical** to Apple's: a
+    stream we produce does not decode with Apple's `lzfse` CLI and vice versa,
+    despite both using the `bvx2` magic. Round-trip within our own codec is
+    correct, and Apple-produced streams round-trip through our `Decompress`. Bit-
+    exact interop in the *encode* direction is tracked as an open action item.
+
 ## Coverage and safety
 
 `task test` reports **100% statement coverage** (`cover.out`). The corruption /

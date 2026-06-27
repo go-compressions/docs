@@ -24,8 +24,8 @@ primitives side by side too. Different math, same engineering bar.
 The numbers on these pages are benchmarked, not hand-waved. Every page reports
 the **honest headline** — the wins **and** the cases where this code trails the
 state of the art. [`lz4`](repos/lz4.md) **beats `pierrec/lz4` on compression
-ratio** on every corpus, but it is **slower** on speed, and that is reported as
-such. [`blake3`](repos/blake3.md) is several times slower than a hand-written
+ratio** on every corpus and now **decodes at parity** with `pierrec`'s arm64-asm
+decoder, but it is **slower** on encode speed, and that is reported as such. [`blake3`](repos/blake3.md) is several times slower than a hand-written
 AVX2 implementation on a single core in its pure-Go default, and openly says so.
 The credibility is the honesty.
 
@@ -33,8 +33,8 @@ The credibility is the honesty.
 
 | Package | Format | Honest headline |
 | --- | --- | --- |
-| [`lz4`](repos/lz4.md) | LZ4 block format | **beats `pierrec/lz4` on ratio** (text ≈4.6% smaller, binary ≈2.2%); **trails on speed** (~0.67–0.72× native arm64) — the gap is match-*finding*, not the SIMD match-extension kernel |
-| [`lzfse`](repos/lzfse.md) | Apple LZFSE + LZVN | byte-compatible with Apple's `liblzfse` (round-trips both ways); auto-picks LZVN ≤ 4 KiB, LZFSE above; 100% coverage with no-panic fuzz on adversarial input |
+| [`lz4`](repos/lz4.md) | LZ4 block format | **beats `pierrec/lz4` on ratio** (text ≈4.6% smaller, binary ≈2.2%); **decodes at parity** with `pierrec`'s arm64-asm decoder (~1.0–1.4×, beating it on ooffice/sao); **trails on encode speed** (~0.67–0.72× native arm64) — the encode gap is match-*finding*, not the SIMD match-extension kernel |
+| [`lzfse`](repos/lzfse.md) | Apple LZFSE + LZVN | byte-compatible with Apple's `liblzfse` (round-trips both ways); ratio within ~1–3% of Apple, **decode now within ~1.6–2.1×** of Apple's `-O3` C reference (was ~2–3×); auto-picks LZVN ≤ 4 KiB, LZFSE above; 100% coverage with no-panic fuzz on adversarial input |
 | [`lzfsec`](repos/lzfsec.md) | LZFSE/LZVN CLI | cobra CLI over `lzfse` — `compress`/`decompress`, stdin/stdout by default, optional timing+ratio summary; pipe-safe |
 
 ## Content-addressable hashes
