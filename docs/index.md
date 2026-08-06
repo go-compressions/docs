@@ -3,7 +3,8 @@
 **Pure-Go byte-stream transformation primitives** — lossless compression codecs
 and content-addressable hash functions, sitting at the same layer of the stack:
 allocation-aware, zero-copy-friendly transforms that turn a byte stream into
-another, smaller or fingerprinted, byte stream. **Five repositories** in all.
+another, smaller or fingerprinted, byte stream. **Three compression codecs
+(LZ4, LZFSE/LZVN, DEFLATE), a BLAKE3 hash, and their reference CLIs.**
 
 Everything here is **pure Go, `CGO_ENABLED=0`, multi-arch**. Codecs are
 fuzz-tested against the upstream reference implementations they are
@@ -35,6 +36,7 @@ The credibility is the honesty.
 | --- | --- | --- |
 | [`lz4`](repos/lz4.md) | LZ4 block format | **beats `pierrec/lz4` on ratio** (text ≈4.6% smaller, binary ≈2.2%); **decodes at parity** with `pierrec`'s arm64-asm decoder (~1.0–1.4×, beating it on ooffice/sao); **trails on encode speed** (~0.67–0.72× native arm64) — the encode gap is match-*finding*, not the SIMD match-extension kernel |
 | [`lzfse`](repos/lzfse.md) | Apple LZFSE + LZVN | byte-compatible with Apple's `liblzfse` (round-trips both ways); ratio within ~1–3% of Apple, **decode now within ~1.6–2.1×** of Apple's `-O3` C reference (was ~2–3×); auto-picks LZVN ≤ 4 KiB, LZFSE above; 100% coverage with no-panic fuzz on adversarial input |
+| [`deflate`](repos/deflate.md) | DEFLATE (RFC 1951) | **bidirectionally wire-compatible with `compress/flate`** (each decodes the other's streams, differential-fuzzed); correctness-first — **competitive encode on text** (1.08× default, **1.49× best**) and json best (**2.14×**), **slower decode** than stdlib flate; match extension via `matchlen` SIMD |
 | [`lzfsec`](repos/lzfsec.md) | LZFSE/LZVN CLI | cobra CLI over `lzfse` — `compress`/`decompress`, stdin/stdout by default, optional timing+ratio summary; pipe-safe |
 
 ## Content-addressable hashes
@@ -46,8 +48,8 @@ The credibility is the honesty.
 
 The `matchlen` SIMD common-prefix primitive that powers [`lz4`](repos/lz4.md)'s
 match extension lives in the [go-simd](https://github.com/go-simd) family
-([matchlen](https://github.com/go-compressions/matchlen) is mirrored here) — its
-kernel ships real SIMD on all six of Go's 64-bit SIMD targets (amd64, arm64,
+([go-simd/matchlen](https://github.com/go-simd/matchlen), the dependency `lz4`
+pins) — its kernel ships real SIMD on all six of Go's 64-bit SIMD targets (amd64, arm64,
 riscv64, loong64, ppc64le, s390x). **ppc64le is now natively measured on real
 POWER10 silicon** ([GCC Compile Farm](https://portal.cfarm.net/), VSX, Go 1.26.4):
 `lz4` encode runs **1.8× scalar** (1174 vs 644 MB/s) and **beats `pierrec/lz4`**

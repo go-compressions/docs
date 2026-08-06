@@ -14,9 +14,9 @@ out, _ := lz4.DecompressBlock(c, len(src))
 ```
 
 The compressor delegates LZ4's hot "count the matching bytes" inner loop
-(`LZ4_count`) to [matchlen](https://github.com/go-compressions/matchlen), whose
-SIMD common-prefix kernel makes match extension fast. As of `matchlen`
-**v0.3.0** that kernel ships SIMD on **all six** of Go's 64-bit SIMD targets —
+(`LZ4_count`) to [`go-simd/matchlen`](https://github.com/go-simd/matchlen)
+(pinned at **v0.3.1**), whose SIMD common-prefix kernel makes match extension
+fast. As of `go-simd/matchlen` **v0.3** that kernel ships SIMD on **all six** of Go's 64-bit SIMD targets —
 amd64 (SSE2), arm64 (NEON), riscv64 (RVV), loong64 (LSX), ppc64le (VSX) and
 s390x (vector facility). lz4 needs **no code change** to benefit: `MatchLen`
 dispatches per-arch, so the bulk match runs vectorized on ppc64le and s390x too.
