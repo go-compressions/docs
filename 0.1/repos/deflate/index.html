@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://go-compressions.github.io/docs/0.1/repos/lzfse/">
+        <link rel="canonical" href="https://go-compressions.github.io/docs/0.1/repos/deflate/">
       
       
-        <link rel="prev" href="../lz4/">
+        <link rel="prev" href="../lzfse/">
       
       
-        <link rel="next" href="../deflate/">
+        <link rel="next" href="../lz4c/">
       
       
       <link rel="icon" href="../../assets/logo.svg">
@@ -24,7 +24,7 @@
     
     
       
-        <title>lzfse - go-compressions docs</title>
+        <title>deflate - go-compressions docs</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lzfse" class="md-skip">
+        <a href="#deflate" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              lzfse
+              deflate
             
           </span>
         </div>
@@ -359,6 +359,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../lzfse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    lzfse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -375,7 +396,7 @@
           
   
   <span class="md-ellipsis">
-    lzfse
+    deflate
   </span>
   
 
@@ -386,7 +407,7 @@
         
   
   <span class="md-ellipsis">
-    lzfse
+    deflate
   </span>
   
 
@@ -417,9 +438,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#consumers" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
-      Consumers
+      How it works
     </span>
   </a>
   
@@ -432,12 +453,36 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encode-this-package-vs-compressflate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encode (this package vs compress/flate)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decode-both-decoders-reading-the-same-flate-produced-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decode (both decoders reading the same flate-produced stream)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#coverage-and-safety" class="md-nav__link">
+  <a href="#honest-verdict" class="md-nav__link">
     <span class="md-ellipsis">
-      Coverage and safety
+      Honest verdict
     </span>
   </a>
   
@@ -456,27 +501,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../deflate/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    deflate
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -676,9 +700,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#consumers" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
-      Consumers
+      How it works
     </span>
   </a>
   
@@ -691,12 +715,36 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encode-this-package-vs-compressflate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encode (this package vs compress/flate)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decode-both-decoders-reading-the-same-flate-produced-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decode (both decoders reading the same flate-produced stream)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#coverage-and-safety" class="md-nav__link">
+  <a href="#honest-verdict" class="md-nav__link">
     <span class="md-ellipsis">
-      Coverage and safety
+      Honest verdict
     </span>
   </a>
   
@@ -726,107 +774,195 @@
                   
 
 
-<h1 id="lzfse">lzfse<a class="headerlink" href="#lzfse" title="Permanent link">&para;</a></h1>
-<p><a href="https://github.com/go-compressions/lzfse/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-compressions/lzfse/actions/workflows/ci.yml/badge.svg" /></a>
-<img alt="coverage" src="https://img.shields.io/badge/coverage-100%25-brightgreen" /></p>
-<p>Pure-Go implementation of Apple's <strong>LZFSE</strong> and <strong>LZVN</strong> compression formats.
-Byte-compatible with the reference <code>liblzfse</code> C implementation: data compressed
-by <code>liblzfse</code> round-trips through <code>Decompress</code>, and data produced by <code>Compress</code>
-is decoded by <code>liblzfse</code> without modification.
-<a href="https://github.com/go-compressions/lzfse">Repository →</a></p>
+<h1 id="deflate">deflate<a class="headerlink" href="#deflate" title="Permanent link">&para;</a></h1>
+<p>Pure-Go (<code>CGO=0</code>) implementation of the <strong>DEFLATE</strong> compressed data format
+(<a href="https://www.rfc-editor.org/rfc/rfc1951">RFC 1951</a>) — both the encoder
+(<em>deflate</em>) and the decoder (<em>inflate</em>). The DEFLATE bit stream is the payload
+carried inside zlib (RFC 1950) and gzip (RFC 1952), and exactly what the
+standard library's <code>compress/flate</code> reads and writes.
+<a href="https://github.com/go-compressions/deflate">Repository →</a></p>
+<p><code>deflate</code> is <strong>bidirectionally wire-compatible with <code>compress/flate</code></strong>, verified
+by differential fuzzing: <code>flate.NewReader</code> decodes every stream our <code>Writer</code>
+produces, and our <code>NewReader</code> decodes every stream <code>flate.NewWriter</code> produces —
+both back to the original bytes.</p>
 <h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-compressions/lzfse&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-compressions/deflate&quot;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">compressed</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">lzfse</span><span class="p">.</span><span class="nx">Compress</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nx">decoded</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">lzfse</span><span class="p">.</span><span class="nx">Decompress</span><span class="p">(</span><span class="nx">compressed</span><span class="p">)</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">// Streaming.</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kd">var</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">deflate</span><span class="p">.</span><span class="nx">NewWriter</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">deflate</span><span class="p">.</span><span class="nx">DefaultCompression</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nx">w</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nx">w</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">deflate</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">buf</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">ReadAll</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1">// One-shot convenience helpers.</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="nx">comp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">deflate</span><span class="p">.</span><span class="nx">Deflate</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">src</span><span class="p">)</span><span class="w">          </span><span class="c1">// src -&gt; DEFLATE</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="nx">orig</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">deflate</span><span class="p">.</span><span class="nx">Inflate</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">comp</span><span class="p">)</span><span class="w">      </span><span class="c1">// DEFLATE -&gt; src</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Compress</span><span class="p">(</span><span class="nx">src</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Decompress</span><span class="p">(</span><span class="nx">src</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<p><code>NewWriter</code> accepts <code>DefaultCompression</code>, <code>NoCompression</code> and the range
+<code>BestSpeed</code>..<code>BestCompression</code> (<code>-1</code>, <code>0</code>, <code>1</code>..<code>9</code>), mirroring <code>compress/flate</code>.</p>
+<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<p><strong>Decoder.</strong> A bit reader feeds a compact count/symbol canonical-Huffman decoder
+(the zlib <em>puff</em> method). It handles all three block types — stored, fixed
+Huffman and dynamic Huffman (including the code-length run-length alphabet) —
+plus LZ77 back-reference copies over a 32 KiB sliding window, with every
+malformed-input path (reserved block type, bad stored length, over-subscribed or
+truncated codes, out-of-range distances) returning a typed error.</p>
+<p><strong>Encoder.</strong> A hash-chain match-finder (4-byte hash, per-level chain depth)
+produces LZ77 tokens; match <em>extension</em> runs through the
+<a href="https://github.com/go-compressions/matchlen"><code>matchlen</code></a> SIMD common-prefix
+kernel. Each block is emitted as whichever of <strong>stored / fixed / dynamic</strong> is
+smallest, with length-limited (≤ 15-bit, ≤ 7-bit for the code-length alphabet)
+Huffman codes generated so they are always <em>complete</em> — accepted by any RFC 1951
+decoder without single-code special cases.</p>
+<p><code>deflate</code> pins <a href="https://github.com/go-compressions/matchlen"><code>go-compressions/matchlen</code></a>
+v0.1.1, whose kernel ships real SIMD on <strong>four</strong> of Go's 64-bit targets — amd64
+(SSE2), arm64 (NEON), loong64 (LSX) and riscv64 (RVV); other architectures use
+the portable scalar fallback. As with the sibling <a href="../lz4/"><code>lz4</code></a>, the kernel is
+in the encoder's hot path, but end-to-end gains are bounded because encode time
+is dominated by match-<em>finding</em> (hash chains), not match-<em>extension</em>.</p>
+<h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
+<p>Benchmarks are reproducible from committed, deterministically-generated corpora —
+no external data:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-run<span class="o">=</span>^$<span class="w"> </span>-bench<span class="o">=</span>.<span class="w"> </span>-benchmem
 </code></pre></div>
-<p><code>Compress</code> picks the format automatically: inputs ≤ 4 KiB are emitted as an LZVN
-block (one <code>bvxn</code> block followed by a <code>bvx$</code> end-of-stream); larger inputs are
-emitted as LZFSE blocks (V1/V2 headers + FSE-encoded streams). <code>Decompress</code>
-handles every block magic Apple's reference emits:</p>
+<p>Numbers below are from an <strong>Apple M4 Max</strong> (<code>darwin/arm64</code>), Go 1.26.4, on four
+512 KiB corpora (2026-07-03). Throughput is MB/s (higher is better); <em>ratio</em> is
+compressed ÷ original (lower is better).</p>
+<h3 id="encode-this-package-vs-compressflate">Encode (this package vs <code>compress/flate</code>)<a class="headerlink" href="#encode-this-package-vs-compressflate" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Magic</th>
-<th>Bytes</th>
-<th>Meaning</th>
+<th>corpus</th>
+<th>level</th>
+<th style="text-align: right;">ours MB/s</th>
+<th style="text-align: right;"><code>flate</code> MB/s</th>
+<th style="text-align: right;">ours vs <code>flate</code></th>
+<th style="text-align: right;">ratio ours</th>
+<th style="text-align: right;">ratio <code>flate</code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>bvx-</code></td>
-<td><code>2D…</code></td>
-<td>Uncompressed payload (passthrough)</td>
+<td>text</td>
+<td>default</td>
+<td style="text-align: right;">18.2</td>
+<td style="text-align: right;">16.9</td>
+<td style="text-align: right;"><strong>1.08×</strong></td>
+<td style="text-align: right;">0.203</td>
+<td style="text-align: right;">0.205</td>
 </tr>
 <tr>
-<td><code>bvx1</code></td>
-<td><code>31…</code></td>
-<td>LZFSE V1 (uncompressed freq table)</td>
+<td>text</td>
+<td>best</td>
+<td style="text-align: right;">17.2</td>
+<td style="text-align: right;">11.5</td>
+<td style="text-align: right;"><strong>1.49×</strong></td>
+<td style="text-align: right;">0.203</td>
+<td style="text-align: right;">0.202</td>
 </tr>
 <tr>
-<td><code>bvx2</code></td>
-<td><code>32…</code></td>
-<td>LZFSE V2 (variable-length codes)</td>
+<td>json</td>
+<td>default</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">131</td>
+<td style="text-align: right;">0.79×</td>
+<td style="text-align: right;">0.105</td>
+<td style="text-align: right;">0.100</td>
 </tr>
 <tr>
-<td><code>bvxn</code></td>
-<td><code>6E…</code></td>
-<td>LZVN block</td>
+<td>json</td>
+<td>best</td>
+<td style="text-align: right;">97.7</td>
+<td style="text-align: right;">45.6</td>
+<td style="text-align: right;"><strong>2.14×</strong></td>
+<td style="text-align: right;">0.105</td>
+<td style="text-align: right;">0.091</td>
 </tr>
 <tr>
-<td><code>bvx$</code></td>
-<td><code>24…</code></td>
-<td>End-of-stream marker</td>
+<td>binary</td>
+<td>default</td>
+<td style="text-align: right;">71.5</td>
+<td style="text-align: right;">99.7</td>
+<td style="text-align: right;">0.72×</td>
+<td style="text-align: right;">0.834</td>
+<td style="text-align: right;">0.835</td>
+</tr>
+<tr>
+<td>repetitive</td>
+<td>default</td>
+<td style="text-align: right;">690</td>
+<td style="text-align: right;">790</td>
+<td style="text-align: right;">0.87×</td>
+<td style="text-align: right;">0.0034</td>
+<td style="text-align: right;">0.0030</td>
 </tr>
 </tbody>
 </table>
-<p>LZFSE is LZVN followed by an entropy stage (FSE/Huffman); that entropy stage is
-where the codec's time goes, so it stays scalar pure Go — there is no
-vectorizable hot loop to accelerate the way an LZ match-finder has.</p>
-<h2 id="consumers">Consumers<a class="headerlink" href="#consumers" title="Permanent link">&para;</a></h2>
+<h3 id="decode-both-decoders-reading-the-same-flate-produced-stream">Decode (both decoders reading the same <code>flate</code>-produced stream)<a class="headerlink" href="#decode-both-decoders-reading-the-same-flate-produced-stream" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>corpus</th>
+<th>level</th>
+<th style="text-align: right;">ours MB/s</th>
+<th style="text-align: right;"><code>flate</code> MB/s</th>
+<th style="text-align: right;">ours vs <code>flate</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>default</td>
+<td style="text-align: right;">253</td>
+<td style="text-align: right;">460</td>
+<td style="text-align: right;">0.55×</td>
+</tr>
+<tr>
+<td>json</td>
+<td>default</td>
+<td style="text-align: right;">343</td>
+<td style="text-align: right;">973</td>
+<td style="text-align: right;">0.35×</td>
+</tr>
+<tr>
+<td>binary</td>
+<td>default</td>
+<td style="text-align: right;">68.7</td>
+<td style="text-align: right;">216</td>
+<td style="text-align: right;">0.32×</td>
+</tr>
+<tr>
+<td>repetitive</td>
+<td>default</td>
+<td style="text-align: right;">464</td>
+<td style="text-align: right;">10971</td>
+<td style="text-align: right;">0.04×</td>
+</tr>
+</tbody>
+</table>
+<h2 id="honest-verdict">Honest verdict<a class="headerlink" href="#honest-verdict" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../lzfsec/"><code>go-compressions/lzfsec</code></a> — CLI wrapper
-  (<code>lzfsec compress|decompress</code>).</li>
-<li><code>github.com/go-filesystems/apfs</code> — APFS <code>decmpfs</code> transparent decompression
-  for types 7 / 8 / 11 / 12 (LZVN / LZFSE, inline + resource-fork variants).</li>
-<li><code>github.com/go-diskimages/tart-oci</code> — Tart layer decompression.</li>
+<li><strong>Encode is a mixed picture, not a blanket win.</strong> Faster on <code>text</code> (1.08×
+  default, <strong>1.49× best</strong>) and <code>json</code> at the best level (<strong>2.14×</strong>, because
+  <code>flate</code>'s <code>BestCompression</code> pays for exhaustive lazy matching), at essentially
+  equal ratio on <code>text</code>. <strong>Slower on <code>binary</code> (0.72×), <code>repetitive</code> (0.87×) and
+  <code>json</code> at the default level (0.79×)</strong> — roughly parity-to-slightly-slower on a
+  mixed corpus. It also <strong>allocates far more per operation (~390–400 vs ~27)</strong> —
+  per-block frequency/code/token buffers, the clearest thing left to optimize.</li>
+<li><strong><code>flate</code> wins decode across the board (≈1.8–3×, ~25× on the highly
+  repetitive input).</strong> Ours is a small, correct, bit-serial count/symbol Huffman
+  decoder that copies back-references byte-by-byte; <code>flate</code>'s is a mature
+  table-driven decoder. Decode is inherently bit-serial and not SIMD-amenable, so
+  this package targets correctness and wire-compatibility here rather than raw
+  speed.</li>
 </ul>
-<h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
-<p>Benchmarked single-core on Apple M4 Max against Apple's <code>liblzfse</code> C reference
-built <code>-O3</code> (its fastest), timed in-memory on the Silesia corpus.</p>
-<ul>
-<li><strong>Ratio — at parity.</strong> Compressed size tracks Apple's to within ~1–3% on real
-  data (e.g. dickens 0.391 vs 0.379, samba 0.240 vs 0.241, nci 0.099 vs 0.096);
-  level on synthetic inputs.</li>
-<li><strong>Decode — now close.</strong> Two passes of decode-path work (overlap-aware bulk
-  copy + word-at-a-time FSE refill, then an index-write LMD loop with fixed
-  16-byte short-run copies and reused per-block scratch, 2026-06-24) made decode
-  <strong>1.1–1.6× faster</strong> than the prior decoder and shrank the gap to Apple's <code>-O3</code>
-  C reference from <strong>~2–3×</strong> to <strong>~1.6–2.1×</strong> — real files now decode at ~½–0.6×
-  the reference (dickens 611 vs 1281 MB/s).</li>
-<li><strong>Compression speed — still lags.</strong> Encode runs at roughly ¼–⅓ of the
-  reference (dickens 33 vs 124 MB/s); the match-finder is the next target.</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Cross-compatibility (known limitation)</p>
-<p>Our V2 FSE bitstream layout is <strong>not yet byte-identical</strong> to Apple's: a
-stream we produce does not decode with Apple's <code>lzfse</code> CLI and vice versa,
-despite both using the <code>bvx2</code> magic. Round-trip within our own codec is
-correct, and Apple-produced streams round-trip through our <code>Decompress</code>. Bit-
-exact interop in the <em>encode</em> direction is tracked as an open action item.</p>
-</div>
-<h2 id="coverage-and-safety">Coverage and safety<a class="headerlink" href="#coverage-and-safety" title="Permanent link">&para;</a></h2>
-<p><code>task test</code> reports <strong>100% statement coverage</strong> (<code>cover.out</code>). The corruption /
-random-garbage fuzz suites assert <strong>no panic</strong>, so the decoder is safe to call on
-adversarial input — bad data returns an error rather than crashing. The package
-ships a <a href="https://taskfile.dev">Taskfile</a> (<code>task lint|build|test|ci</code>) used by both
-local development and CI; Renovate auto-merges patch/minor <code>gomod</code> updates.</p>
+<p>In short: <strong>correctness-first and wire-compatible; competitive encode on text,
+slower decode than the standard library.</strong> If raw throughput on arbitrary data
+is the priority, <code>compress/flate</code> is still the better choice; the value here is a
+clean, fully-tested, SIMD-<code>matchlen</code> DEFLATE that interoperates with it exactly.</p>
 <h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
 <p>BSD-3-Clause.</p>
 

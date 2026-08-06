@@ -455,11 +455,11 @@
   
   
     <li class="md-nav__item">
-      <a href="repos/lzfsec/" class="md-nav__link">
+      <a href="repos/deflate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    lzfsec
+    deflate
   </span>
   
 
@@ -481,6 +481,27 @@
   
   <span class="md-ellipsis">
     lz4c
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="repos/lzfsec/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    lzfsec
   </span>
   
 
@@ -687,7 +708,8 @@
 <p><strong>Pure-Go byte-stream transformation primitives</strong> — lossless compression codecs
 and content-addressable hash functions, sitting at the same layer of the stack:
 allocation-aware, zero-copy-friendly transforms that turn a byte stream into
-another, smaller or fingerprinted, byte stream. <strong>Five repositories</strong> in all.</p>
+another, smaller or fingerprinted, byte stream. <strong>Three compression codecs
+(LZ4, LZFSE/LZVN, DEFLATE), a BLAKE3 hash, and their reference CLIs.</strong></p>
 <p>Everything here is <strong>pure Go, <code>CGO_ENABLED=0</code>, multi-arch</strong>. Codecs are
 fuzz-tested against the upstream reference implementations they are
 wire-compatible with; hashes are cross-checked against the official spec test
@@ -728,6 +750,11 @@ The credibility is the honesty.</p>
 <td>byte-compatible with Apple's <code>liblzfse</code> (round-trips both ways); ratio within ~1–3% of Apple, <strong>decode now within ~1.6–2.1×</strong> of Apple's <code>-O3</code> C reference (was ~2–3×); auto-picks LZVN ≤ 4 KiB, LZFSE above; 100% coverage with no-panic fuzz on adversarial input</td>
 </tr>
 <tr>
+<td><a href="repos/deflate/"><code>deflate</code></a></td>
+<td>DEFLATE (RFC 1951)</td>
+<td><strong>bidirectionally wire-compatible with <code>compress/flate</code></strong> (each decodes the other's streams, differential-fuzzed); correctness-first — <strong>competitive encode on text</strong> (1.08× default, <strong>1.49× best</strong>) and json best (<strong>2.14×</strong>), <strong>slower decode</strong> than stdlib flate; match extension via <code>matchlen</code> SIMD</td>
+</tr>
+<tr>
 <td><a href="repos/lzfsec/"><code>lzfsec</code></a></td>
 <td>LZFSE/LZVN CLI</td>
 <td>cobra CLI over <code>lzfse</code> — <code>compress</code>/<code>decompress</code>, stdin/stdout by default, optional timing+ratio summary; pipe-safe</td>
@@ -758,8 +785,8 @@ The credibility is the honesty.</p>
 </table>
 <p>The <code>matchlen</code> SIMD common-prefix primitive that powers <a href="repos/lz4/"><code>lz4</code></a>'s
 match extension lives in the <a href="https://github.com/go-simd">go-simd</a> family
-(<a href="https://github.com/go-compressions/matchlen">matchlen</a> is mirrored here) — its
-kernel ships real SIMD on all six of Go's 64-bit SIMD targets (amd64, arm64,
+(<a href="https://github.com/go-simd/matchlen">go-simd/matchlen</a>, the dependency <code>lz4</code>
+pins) — its kernel ships real SIMD on all six of Go's 64-bit SIMD targets (amd64, arm64,
 riscv64, loong64, ppc64le, s390x). <strong>ppc64le is now natively measured on real
 POWER10 silicon</strong> (<a href="https://portal.cfarm.net/">GCC Compile Farm</a>, VSX, Go 1.26.4):
 <code>lz4</code> encode runs <strong>1.8× scalar</strong> (1174 vs 644 MB/s) and <strong>beats <code>pierrec/lz4</code></strong>

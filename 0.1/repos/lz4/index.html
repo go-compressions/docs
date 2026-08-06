@@ -483,11 +483,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../lzfsec/" class="md-nav__link">
+      <a href="../deflate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    lzfsec
+    deflate
   </span>
   
 
@@ -509,6 +509,27 @@
   
   <span class="md-ellipsis">
     lz4c
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lzfsec/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    lzfsec
   </span>
   
 
@@ -746,9 +767,9 @@ cross-checked against <code>pierrec/lz4</code>. Blocks are mutually decodable wi
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">lz4</span><span class="p">.</span><span class="nx">DecompressBlock</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">src</span><span class="p">))</span>
 </code></pre></div>
 <p>The compressor delegates LZ4's hot "count the matching bytes" inner loop
-(<code>LZ4_count</code>) to <a href="https://github.com/go-compressions/matchlen">matchlen</a>, whose
-SIMD common-prefix kernel makes match extension fast. As of <code>matchlen</code>
-<strong>v0.3.0</strong> that kernel ships SIMD on <strong>all six</strong> of Go's 64-bit SIMD targets —
+(<code>LZ4_count</code>) to <a href="https://github.com/go-simd/matchlen"><code>go-simd/matchlen</code></a>
+(pinned at <strong>v0.3.1</strong>), whose SIMD common-prefix kernel makes match extension
+fast. As of <code>go-simd/matchlen</code> <strong>v0.3</strong> that kernel ships SIMD on <strong>all six</strong> of Go's 64-bit SIMD targets —
 amd64 (SSE2), arm64 (NEON), riscv64 (RVV), loong64 (LSX), ppc64le (VSX) and
 s390x (vector facility). lz4 needs <strong>no code change</strong> to benefit: <code>MatchLen</code>
 dispatches per-arch, so the bulk match runs vectorized on ppc64le and s390x too.
