@@ -752,7 +752,7 @@ unkeyed mode), verified against the official BLAKE3 test vectors. A single
 dependency-free package with 100% test coverage.
 <a href="https://github.com/go-compressions/blake3">Repository →</a></p>
 <h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-compressions/blake3&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">"github.com/go-compressions/blake3"</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">blake3</span><span class="p">.</span><span class="nx">Sum256</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w">            </span><span class="c1">// [32]byte</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nx">sum512</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">blake3</span><span class="p">.</span><span class="nx">Sum512</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w">         </span><span class="c1">// [64]byte</span>

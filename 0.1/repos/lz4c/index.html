@@ -779,7 +779,7 @@ the command line, as a single CGO-free static binary.
 <p>The <code>lz4</code> library exposes the LZ4 <em>block</em> codec only, which does not record the
 decompressed length. lz4c frames each block with a fixed 12-byte header so a
 stream is self-describing:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>magic   [4]byte  // &quot;LZ4C&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>magic   [4]byte  // "LZ4C"
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>rawLen  uint64   // little-endian length of the original data
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>...block...      // a standard LZ4 block, byte-for-byte
 </code></pre></div>
