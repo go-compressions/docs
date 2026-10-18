@@ -1,4 +1,9 @@
-# blake3
+---
+title: "blake3"
+weight: 100
+---
+
+# blake3 {#blake3}
 
 [![CI](https://github.com/go-compressions/blake3/actions/workflows/ci.yml/badge.svg)](https://github.com/go-compressions/blake3/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -8,7 +13,7 @@ unkeyed mode), verified against the official BLAKE3 test vectors. A single
 dependency-free package with 100% test coverage.
 [Repository →](https://github.com/go-compressions/blake3)
 
-## API
+## API {#api}
 
 ```go
 import "github.com/go-compressions/blake3"
@@ -30,7 +35,7 @@ h.Digest(xof[:])
 
 Default (unkeyed) hash mode only; keyed and derive-key modes are not implemented.
 
-## Pure-Go optimisations (no assembly)
+## Pure-Go optimisations (no assembly) {#pure-go-optimisations-no-assembly}
 
 Two optimisations apply with zero assembly, on every `GOARCH`:
 
@@ -57,7 +62,7 @@ The streaming `Hasher` (`Write`/`Sum`/`Digest`) is single-threaded by design;
 use `Sum256`/`Sum512` for one-shot hashing of large buffers to get the parallel
 speed-up.
 
-## Default SIMD path (all six arches, no GOEXPERIMENT)
+## Default SIMD path (all six arches, no GOEXPERIMENT) {#default-simd-path-all-six-arches-no-goexperiment}
 
 As of **v0.5.0** the **default build is SIMD-accelerated on all six** 64-bit
 targets — cgo-free, no `GOEXPERIMENT` — using
@@ -79,7 +84,7 @@ bit-exact on a seventh architecture, ppc64 (big-endian)**, on real POWER9 silico
 via the portable fallback path — six SIMD targets, validated on seven
 architectures.
 
-## Experimental archsimd path (`GOEXPERIMENT=simd`)
+## Experimental archsimd path (`GOEXPERIMENT=simd`) {#experimental-archsimd-path-goexperimentsimd}
 
 A second, opt-in SIMD path uses Go's experimental
 [`simd/archsimd`](https://pkg.go.dev/simd/archsimd) intrinsics (still pure Go —
@@ -108,7 +113,7 @@ The kernel only switches to SIMD once there are at least `NumCPU` chunk batches
 (measured crossover: scalar wins at 64 KiB, NEON wins from 80 KiB — right at
 batches ≈ NumCPU), so the SIMD build is never slower than scalar at any size.
 
-## Honest verdict
+## Honest verdict {#honest-verdict}
 
 A hand-written AVX2 implementation such as
 [`lukechampine.com/blake3`](https://github.com/lukechampine/blake3) is still
@@ -116,6 +121,6 @@ several times faster on a single core. The default build deliberately trades tha
 for being portable to every `GOARCH` and trivially auditable, while the
 go-asmgen and archsimd paths recover much of the gap without leaving pure Go.
 
-## License
+## License {#license}
 
 BSD-3-Clause.

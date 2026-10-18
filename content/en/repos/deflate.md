@@ -1,4 +1,9 @@
-# deflate
+---
+title: "deflate"
+weight: 60
+---
+
+# deflate {#deflate}
 
 Pure-Go (`CGO=0`) implementation of the **DEFLATE** compressed data format
 ([RFC 1951](https://www.rfc-editor.org/rfc/rfc1951)) — both the encoder
@@ -12,7 +17,7 @@ by differential fuzzing: `flate.NewReader` decodes every stream our `Writer`
 produces, and our `NewReader` decodes every stream `flate.NewWriter` produces —
 both back to the original bytes.
 
-## API
+## API {#api}
 
 ```go
 import "github.com/go-compressions/deflate"
@@ -34,7 +39,7 @@ orig, _ := deflate.Inflate(nil, comp)      // DEFLATE -> src
 `NewWriter` accepts `DefaultCompression`, `NoCompression` and the range
 `BestSpeed`..`BestCompression` (`-1`, `0`, `1`..`9`), mirroring `compress/flate`.
 
-## How it works
+## How it works {#how-it-works}
 
 **Decoder.** A bit reader feeds a compact count/symbol canonical-Huffman decoder
 (the zlib *puff* method). It handles all three block types — stored, fixed
@@ -54,11 +59,11 @@ decoder without single-code special cases.
 `deflate` pins [`go-compressions/matchlen`](https://github.com/go-compressions/matchlen)
 v0.1.1, whose kernel ships real SIMD on **four** of Go's 64-bit targets — amd64
 (SSE2), arm64 (NEON), loong64 (LSX) and riscv64 (RVV); other architectures use
-the portable scalar fallback. As with the sibling [`lz4`](lz4.md), the kernel is
+the portable scalar fallback. As with the sibling [`lz4`]({{< relref "lz4.md" >}}), the kernel is
 in the encoder's hot path, but end-to-end gains are bounded because encode time
 is dominated by match-*finding* (hash chains), not match-*extension*.
 
-## Performance
+## Performance {#performance}
 
 Benchmarks are reproducible from committed, deterministically-generated corpora —
 no external data:
@@ -71,7 +76,7 @@ Numbers below are from an **Apple M4 Max** (`darwin/arm64`), Go 1.26.4, on four
 512 KiB corpora (2026-07-03). Throughput is MB/s (higher is better); *ratio* is
 compressed ÷ original (lower is better).
 
-### Encode (this package vs `compress/flate`)
+### Encode (this package vs `compress/flate`) {#encode-this-package-vs-compressflate}
 
 | corpus | level | ours MB/s | `flate` MB/s | ours vs `flate` | ratio ours | ratio `flate` |
 |---|---|--:|--:|--:|--:|--:|
@@ -82,7 +87,7 @@ compressed ÷ original (lower is better).
 | binary     | default | 71.5 | 99.7 | 0.72×     | 0.834  | 0.835  |
 | repetitive | default | 690  | 790  | 0.87×     | 0.0034 | 0.0030 |
 
-### Decode (both decoders reading the same `flate`-produced stream)
+### Decode (both decoders reading the same `flate`-produced stream) {#decode-both-decoders-reading-the-same-flate-produced-stream}
 
 | corpus | level | ours MB/s | `flate` MB/s | ours vs `flate` |
 |---|---|--:|--:|--:|
@@ -91,7 +96,7 @@ compressed ÷ original (lower is better).
 | binary     | default | 68.7 | 216   | 0.32× |
 | repetitive | default | 464  | 10971 | 0.04× |
 
-## Honest verdict
+## Honest verdict {#honest-verdict}
 
 - **Encode is a mixed picture, not a blanket win.** Faster on `text` (1.08×
   default, **1.49× best**) and `json` at the best level (**2.14×**, because
@@ -112,6 +117,6 @@ slower decode than the standard library.** If raw throughput on arbitrary data
 is the priority, `compress/flate` is still the better choice; the value here is a
 clean, fully-tested, SIMD-`matchlen` DEFLATE that interoperates with it exactly.
 
-## License
+## License {#license}
 
 BSD-3-Clause.

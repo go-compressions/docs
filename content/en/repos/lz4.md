@@ -1,4 +1,9 @@
-# lz4
+---
+title: "lz4"
+weight: 40
+---
+
+# lz4 {#lz4}
 
 A clean pure-Go implementation of the **LZ4 block format** —
 `CompressBlock` / `DecompressBlock` — wire-compatible with the reference and
@@ -6,7 +11,7 @@ cross-checked against `pierrec/lz4`. Blocks are mutually decodable with
 `pierrec` in **both** directions, verified on arm64 and amd64.
 [Repository →](https://github.com/go-compressions/lz4)
 
-## API
+## API {#api}
 
 ```go
 c := lz4.CompressBlock(src)
@@ -34,7 +39,7 @@ Beyond the six SIMD targets, `lz4` also **builds and passes its tests bit-exact
 on a seventh architecture, ppc64 (big-endian)**, on real POWER9 silicon via the
 portable fallback path — six SIMD targets, validated on seven architectures.
 
-## The compressor
+## The compressor {#the-compressor}
 
 The parse is a single-cell hash table keyed on a **6-byte sequence** (the
 reference LZ4 / `pierrec` fast-mode hash, far better dispersed than a 4-byte
@@ -50,7 +55,7 @@ LZ4 is the ideal `matchlen` consumer because it has **no entropy-coding stage** 
 encode time is dominated by match-finding and extension, so a faster `MatchLen`
 shows up end-to-end (unlike codecs whose time goes to FSE/Huffman).
 
-## Performance
+## Performance {#performance}
 
 Encoded as single LZ4 blocks, three representative corpora — two text (Project
 Gutenberg `pg1661` Mark Twain, and the Twain corpus) and one binary (a kernel
@@ -67,7 +72,7 @@ lands at ≈0.5–0.7× `pierrec`'s throughput with the **same** size advantage 
 parse is deterministic, so sizes match arm64 exactly, and the compressed output
 is byte-identical and decodes both ways with `pierrec`.
 
-### Decode — at parity with the asm reference
+### Decode — at parity with the asm reference {#decode-at-parity-with-the-asm-reference}
 
 After the decode hot loop was reshaped to `pierrec`'s pure-Go structure
 (preallocated index-written buffer + two ≤16-byte fixed-copy shortcuts,
@@ -78,7 +83,7 @@ and the gap to `pierrec`'s *hand-written arm64-assembly* decoder collapsed from
 against `pierrec`'s pure-Go decoder (`-tags noasm`) we are roughly **2× faster**,
 so the residual is purely `pierrec`'s per-arch asm, not an algorithmic gap.
 
-## Honest verdict
+## Honest verdict {#honest-verdict}
 
 This pass **beats `pierrec` on compression ratio** on every corpus (text ≈4.6%
 smaller, binary ≈2.2% smaller) — the 6-byte hash, 3-position probe and lazy
@@ -93,6 +98,6 @@ little ratio for speed; we make the opposite trade. The SIMD `matchlen`
 extension is correct and in use, but match extension is only ~10% of encode time
 here — the bottleneck is match-*finding*.
 
-## License
+## License {#license}
 
 BSD-3-Clause.

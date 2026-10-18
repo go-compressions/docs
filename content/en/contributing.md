@@ -1,9 +1,14 @@
-# Contributing
+---
+title: "Contributing"
+weight: 120
+---
+
+# Contributing {#contributing}
 
 go-compressions follows the same conventions as the author's other Go
 organizations.
 
-## Hard rules
+## Hard rules {#hard-rules}
 
 - **Pure Go, `CGO_ENABLED=0`, across the org.** No cgo bindings, no native
   shims. cgo wrappers of the C references are faster still but out of scope —
@@ -29,9 +34,9 @@ organizations.
   (the seventh, ppc64 big-endian, is build + test validated on real POWER9).
 - **English only** for all repository content (issues, PRs, commits, comments).
 
-## Adding or changing a codec / hash
+## Adding or changing a codec / hash {#adding-or-changing-a-codec-hash}
 
-1. **Pin the reference** (see [methodology](methodology.md)) and decide the
+1. **Pin the reference** (see [methodology]({{< relref "methodology.md" >}})) and decide the
    compatibility contract — which magics/headers, which modes.
 2. **Implement the pure-Go path first.** It must be correct and portable before
    any SIMD is added.
@@ -52,7 +57,7 @@ organizations.
    go tool cover -func=cover.out   # must read 100.0%
    ```
 
-## Documentation
+## Documentation {#documentation}
 
 This site is built with MkDocs Material and versioned with
 [mike](https://github.com/jimporter/mike); see the
