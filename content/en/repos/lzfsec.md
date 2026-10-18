@@ -1,13 +1,18 @@
-# lzfsec
+---
+title: "lzfsec"
+weight: 80
+---
+
+# lzfsec {#lzfsec}
 
 [![CI](https://github.com/go-compressions/lzfsec/actions/workflows/ci.yml/badge.svg)](https://github.com/go-compressions/lzfsec/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
-A pure-Go CLI wrapper around [`go-compressions/lzfse`](lzfse.md) — Apple's
+A pure-Go CLI wrapper around [`go-compressions/lzfse`]({{< relref "lzfse.md" >}}) — Apple's
 **LZFSE / LZVN** compression formats on the command line.
 [Repository →](https://github.com/go-compressions/lzfsec)
 
-## Commands
+## Commands {#commands}
 
 ```sh
 lzfsec [-v] compress   [-i input] [-o output]
@@ -27,7 +32,7 @@ lzfsec [-v] decompress [-i input] [-o output]
   Without `-v` both sub-commands stay silent so the binary output on stdout is
   safe to pipe.
 
-## Examples
+## Examples {#examples}
 
 ```sh
 # Compress a file to disk.
@@ -40,13 +45,13 @@ cat big.bin | lzfsec compress | lzfsec decompress > restored.bin
 lzfsec -v compress -i big.bin -o big.bin.lzfse
 ```
 
-## Build
+## Build {#build}
 
 ```sh
 go build ./cmd/lzfsec        # or: task build
 ```
 
-## Coverage
+## Coverage {#coverage}
 
 `task test` reports **100% statement coverage** (`cover.out`) across the four
 sub-packages:
@@ -62,6 +67,6 @@ The package ships a [Taskfile](https://taskfile.dev) (`task lint|build|test|ci`)
 used by both local development and CI; Renovate auto-merges patch/minor `gomod`
 updates.
 
-## License
+## License {#license}
 
 BSD-3-Clause.

@@ -1,13 +1,18 @@
-# lz4c
+---
+title: "lz4c"
+weight: 70
+---
+
+# lz4c {#lz4c}
 
 [![CI](https://github.com/go-compressions/lz4c/actions/workflows/ci.yml/badge.svg)](https://github.com/go-compressions/lz4c/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
-A pure-Go CLI for [`go-compressions/lz4`](lz4.md) — the **LZ4 block format** on
+A pure-Go CLI for [`go-compressions/lz4`]({{< relref "lz4.md" >}}) — the **LZ4 block format** on
 the command line, as a single CGO-free static binary.
 [Repository →](https://github.com/go-compressions/lz4c)
 
-## Usage
+## Usage {#usage}
 
 ```sh
 lz4c [-d] [-i input] [-o output] [-v]
@@ -27,7 +32,7 @@ lz4c [-d] [-i input] [-o output] [-v]
   Without `-v`, lz4c stays silent so the binary output on stdout is safe to
   pipe.
 
-## Examples
+## Examples {#examples}
 
 ```sh
 # Compress a file to disk.
@@ -40,7 +45,7 @@ cat big.bin | lz4c | lz4c -d > restored.bin
 lz4c -v -i big.bin -o big.bin.lz4
 ```
 
-## Container format
+## Container format {#container-format}
 
 The `lz4` library exposes the LZ4 *block* codec only, which does not record the
 decompressed length. lz4c frames each block with a fixed 12-byte header so a
@@ -56,13 +61,13 @@ The payload after the header is an unmodified, standard LZ4 block and stays
 wire-compatible with [`pierrec/lz4`](https://github.com/pierrec/lz4): strip the
 12-byte header and any LZ4 block decoder consumes the remainder.
 
-## Build
+## Build {#build}
 
 ```sh
 go build ./cmd/lz4c        # or: task build
 ```
 
-## Coverage
+## Coverage {#coverage}
 
 `task test` reports **100% statement coverage** across all three packages:
 
@@ -76,6 +81,6 @@ The package ships a [Taskfile](https://taskfile.dev) (`task lint|build|test|ci`)
 used by both local development and CI; Renovate auto-merges patch/minor `gomod`
 updates.
 
-## License
+## License {#license}
 
 BSD-3-Clause.

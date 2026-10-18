@@ -1,4 +1,9 @@
-# go-compressions documentation
+---
+title: "Home"
+weight: 10
+---
+
+# go-compressions documentation {#go-compressions-documentation}
 
 **Pure-Go byte-stream transformation primitives** — lossless compression codecs
 and content-addressable hash functions, sitting at the same layer of the stack:
@@ -11,7 +16,7 @@ fuzz-tested against the upstream reference implementations they are
 wire-compatible with; hashes are cross-checked against the official spec test
 vectors. **100% statement coverage** is the bar on every module.
 
-## Two concerns, one layer
+## Two concerns, one layer {#two-concerns-one-layer}
 
 Despite the name, this org houses the broader family of byte-stream
 transformation primitives — both lossless compression codecs **and**
@@ -20,33 +25,33 @@ same place in the stack: a content-addressable storage layer hashes its blobs
 and compresses its bodies side by side, so it is natural to ship those
 primitives side by side too. Different math, same engineering bar.
 
-## The honesty policy
+## The honesty policy {#the-honesty-policy}
 
 The numbers on these pages are benchmarked, not hand-waved. Every page reports
 the **honest headline** — the wins **and** the cases where this code trails the
-state of the art. [`lz4`](repos/lz4.md) **beats `pierrec/lz4` on compression
+state of the art. [`lz4`]({{< relref "repos/lz4.md" >}}) **beats `pierrec/lz4` on compression
 ratio** on every corpus and now **decodes at parity** with `pierrec`'s arm64-asm
-decoder, but it is **slower** on encode speed, and that is reported as such. [`blake3`](repos/blake3.md) is several times slower than a hand-written
+decoder, but it is **slower** on encode speed, and that is reported as such. [`blake3`]({{< relref "repos/blake3.md" >}}) is several times slower than a hand-written
 AVX2 implementation on a single core in its pure-Go default, and openly says so.
 The credibility is the honesty.
 
-## Compression codecs
+## Compression codecs {#compression-codecs}
 
 | Package | Format | Honest headline |
 | --- | --- | --- |
-| [`lz4`](repos/lz4.md) | LZ4 block format | **beats `pierrec/lz4` on ratio** (text ≈4.6% smaller, binary ≈2.2%); **decodes at parity** with `pierrec`'s arm64-asm decoder (~1.0–1.4×, beating it on ooffice/sao); **trails on encode speed** (~0.67–0.72× native arm64) — the encode gap is match-*finding*, not the SIMD match-extension kernel |
-| [`lzfse`](repos/lzfse.md) | Apple LZFSE + LZVN | byte-compatible with Apple's `liblzfse` (round-trips both ways); ratio within ~1–3% of Apple, **decode now within ~1.6–2.1×** of Apple's `-O3` C reference (was ~2–3×); auto-picks LZVN ≤ 4 KiB, LZFSE above; 100% coverage with no-panic fuzz on adversarial input |
-| [`deflate`](repos/deflate.md) | DEFLATE (RFC 1951) | **bidirectionally wire-compatible with `compress/flate`** (each decodes the other's streams, differential-fuzzed); correctness-first — **competitive encode on text** (1.08× default, **1.49× best**) and json best (**2.14×**), **slower decode** than stdlib flate; match extension via `matchlen` SIMD |
-| [`lzfsec`](repos/lzfsec.md) | LZFSE/LZVN CLI | cobra CLI over `lzfse` — `compress`/`decompress`, stdin/stdout by default, optional timing+ratio summary; pipe-safe |
+| [`lz4`]({{< relref "repos/lz4.md" >}}) | LZ4 block format | **beats `pierrec/lz4` on ratio** (text ≈4.6% smaller, binary ≈2.2%); **decodes at parity** with `pierrec`'s arm64-asm decoder (~1.0–1.4×, beating it on ooffice/sao); **trails on encode speed** (~0.67–0.72× native arm64) — the encode gap is match-*finding*, not the SIMD match-extension kernel |
+| [`lzfse`]({{< relref "repos/lzfse.md" >}}) | Apple LZFSE + LZVN | byte-compatible with Apple's `liblzfse` (round-trips both ways); ratio within ~1–3% of Apple, **decode now within ~1.6–2.1×** of Apple's `-O3` C reference (was ~2–3×); auto-picks LZVN ≤ 4 KiB, LZFSE above; 100% coverage with no-panic fuzz on adversarial input |
+| [`deflate`]({{< relref "repos/deflate.md" >}}) | DEFLATE (RFC 1951) | **bidirectionally wire-compatible with `compress/flate`** (each decodes the other's streams, differential-fuzzed); correctness-first — **competitive encode on text** (1.08× default, **1.49× best**) and json best (**2.14×**), **slower decode** than stdlib flate; match extension via `matchlen` SIMD |
+| [`lzfsec`]({{< relref "repos/lzfsec.md" >}}) | LZFSE/LZVN CLI | cobra CLI over `lzfse` — `compress`/`decompress`, stdin/stdout by default, optional timing+ratio summary; pipe-safe |
 
-## Content-addressable hashes
+## Content-addressable hashes {#content-addressable-hashes}
 
 | Package | Algorithm | Honest headline |
 | --- | --- | --- |
-| [`blake3`](repos/blake3.md) | BLAKE3 (unkeyed) | pure-Go, verified vs official vectors; **multi-core one-shot** + precomputed message schedule; **default build is SIMD on all 6 arches** (`mix4` via [go-asmgen](https://github.com/go-asmgen/asmgen)); optional `archsimd` path. Honest: hand-written AVX2 (`lukechampine`) still faster on a single core |
-| [`b3sum`](repos/b3sum.md) | BLAKE3 checksum CLI | reference-compatible `b3sum` (`<hex>  <name>`); `--check`, `--length`, `--no-names`; rides blake3's six-arch SIMD; ~1.5× end-to-end on a 1 GiB file vs the scalar build |
+| [`blake3`]({{< relref "repos/blake3.md" >}}) | BLAKE3 (unkeyed) | pure-Go, verified vs official vectors; **multi-core one-shot** + precomputed message schedule; **default build is SIMD on all 6 arches** (`mix4` via [go-asmgen](https://github.com/go-asmgen/asmgen)); optional `archsimd` path. Honest: hand-written AVX2 (`lukechampine`) still faster on a single core |
+| [`b3sum`]({{< relref "repos/b3sum.md" >}}) | BLAKE3 checksum CLI | reference-compatible `b3sum` (`<hex>  <name>`); `--check`, `--length`, `--no-names`; rides blake3's six-arch SIMD; ~1.5× end-to-end on a 1 GiB file vs the scalar build |
 
-The `matchlen` SIMD common-prefix primitive that powers [`lz4`](repos/lz4.md)'s
+The `matchlen` SIMD common-prefix primitive that powers [`lz4`]({{< relref "repos/lz4.md" >}})'s
 match extension lives in the [go-simd](https://github.com/go-simd) family
 ([go-simd/matchlen](https://github.com/go-simd/matchlen), the dependency `lz4`
 pins) — its kernel ships real SIMD on all six of Go's 64-bit SIMD targets (amd64, arm64,
@@ -68,7 +73,7 @@ also **builds and passes its tests bit-exact on a seventh architecture, ppc64
 big-endian correctness distinct from the s390x vector kernel. **Six SIMD targets,
 validated on seven architectures.**
 
-Read the [methodology](methodology.md) for the wire-compat → fuzz →
+Read the [methodology]({{< relref "methodology.md" >}}) for the wire-compat → fuzz →
 real-hardware → 100%-coverage pipeline every repo follows.
 
 Source lives under

@@ -1,4 +1,9 @@
-# b3sum
+---
+title: "b3sum"
+weight: 110
+---
+
+# b3sum {#b3sum}
 
 [![CI](https://github.com/go-compressions/b3sum/actions/workflows/ci.yml/badge.svg)](https://github.com/go-compressions/b3sum/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -10,7 +15,7 @@ static binary, no C toolchain. Built on
 [go-compressions/blake3](https://github.com/go-compressions/blake3).
 [Repository →](https://github.com/go-compressions/b3sum)
 
-## Usage
+## Usage {#usage}
 
 ```console
 $ b3sum file.iso
@@ -35,7 +40,7 @@ b3sum --check [FILE...]                      # verify checksums read from FILE(s
   exits non-zero on any mismatch.
 - `--no-names` — print only the digest.
 
-## Performance
+## Performance {#performance}
 
 `b3sum` hashes each file in one shot, so it rides the underlying library's
 multi-core SIMD kernels. As of blake3 **v0.5.0** the **default build is
@@ -68,7 +73,7 @@ Hashing a 1 GiB file (Apple Silicon, page cache warm):
 The underlying per-chunk kernel is ~3–4× faster than scalar; end-to-end b3sum
 gains less because of file I/O and the tree/parent hashing. No flags needed.
 
-### Alternative: archsimd build
+### Alternative: archsimd build {#alternative-archsimd-build}
 
 The library also has a second SIMD implementation using Go's experimental
 `simd/archsimd` intrinsics (amd64 AVX2 on Go 1.26+, arm64 on Go 1.27+). A
@@ -79,6 +84,6 @@ comparison:
 GOEXPERIMENT=simd go build ./cmd/b3sum
 ```
 
-## License
+## License {#license}
 
 BSD-3-Clause.

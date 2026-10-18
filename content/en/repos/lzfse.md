@@ -1,4 +1,9 @@
-# lzfse
+---
+title: "lzfse"
+weight: 50
+---
+
+# lzfse {#lzfse}
 
 [![CI](https://github.com/go-compressions/lzfse/actions/workflows/ci.yml/badge.svg)](https://github.com/go-compressions/lzfse/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -9,7 +14,7 @@ by `liblzfse` round-trips through `Decompress`, and data produced by `Compress`
 is decoded by `liblzfse` without modification.
 [Repository →](https://github.com/go-compressions/lzfse)
 
-## API
+## API {#api}
 
 ```go
 import "github.com/go-compressions/lzfse"
@@ -43,15 +48,15 @@ LZFSE is LZVN followed by an entropy stage (FSE/Huffman); that entropy stage is
 where the codec's time goes, so it stays scalar pure Go — there is no
 vectorizable hot loop to accelerate the way an LZ match-finder has.
 
-## Consumers
+## Consumers {#consumers}
 
-- [`go-compressions/lzfsec`](lzfsec.md) — CLI wrapper
+- [`go-compressions/lzfsec`]({{< relref "lzfsec.md" >}}) — CLI wrapper
   (`lzfsec compress|decompress`).
 - `github.com/go-filesystems/apfs` — APFS `decmpfs` transparent decompression
   for types 7 / 8 / 11 / 12 (LZVN / LZFSE, inline + resource-fork variants).
 - `github.com/go-diskimages/tart-oci` — Tart layer decompression.
 
-## Performance
+## Performance {#performance}
 
 Benchmarked single-core on Apple M4 Max against Apple's `liblzfse` C reference
 built `-O3` (its fastest), timed in-memory on the Silesia corpus.
@@ -68,14 +73,17 @@ built `-O3` (its fastest), timed in-memory on the Silesia corpus.
 - **Compression speed — still lags.** Encode runs at roughly ¼–⅓ of the
   reference (dickens 33 vs 124 MB/s); the match-finder is the next target.
 
-!!! note "Cross-compatibility (known limitation)"
-    Our V2 FSE bitstream layout is **not yet byte-identical** to Apple's: a
-    stream we produce does not decode with Apple's `lzfse` CLI and vice versa,
-    despite both using the `bvx2` magic. Round-trip within our own codec is
-    correct, and Apple-produced streams round-trip through our `Decompress`. Bit-
-    exact interop in the *encode* direction is tracked as an open action item.
+{{< callout type="info" >}}
+**Cross-compatibility (known limitation)**
 
-## Coverage and safety
+Our V2 FSE bitstream layout is **not yet byte-identical** to Apple's: a
+stream we produce does not decode with Apple's `lzfse` CLI and vice versa,
+despite both using the `bvx2` magic. Round-trip within our own codec is
+correct, and Apple-produced streams round-trip through our `Decompress`. Bit-
+exact interop in the *encode* direction is tracked as an open action item.
+{{< /callout >}}
+
+## Coverage and safety {#coverage-and-safety}
 
 `task test` reports **100% statement coverage** (`cover.out`). The corruption /
 random-garbage fuzz suites assert **no panic**, so the decoder is safe to call on
@@ -83,6 +91,6 @@ adversarial input — bad data returns an error rather than crashing. The packag
 ships a [Taskfile](https://taskfile.dev) (`task lint|build|test|ci`) used by both
 local development and CI; Renovate auto-merges patch/minor `gomod` updates.
 
-## License
+## License {#license}
 
 BSD-3-Clause.
