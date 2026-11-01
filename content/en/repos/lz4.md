@@ -98,6 +98,14 @@ little ratio for speed; we make the opposite trade. The SIMD `matchlen`
 extension is correct and in use, but match extension is only ~10% of encode time
 here — the bottleneck is match-*finding*.
 
+## Untrusted input {#untrusted-input}
+
+As of v0.4.0 every size taken from the input is bounded before anything is
+allocated from it. A block can expand 255:1, so `DecompressBlock` stops at
+`DefaultMaxOutput` (1 GiB) with `ErrTooLarge`; `DecompressBlockLimit` sets
+another ceiling. Apple frames are bounded by `DefaultMaxBlock` (16 MiB), with
+`DecompressAppleLimit` and `DecompressAppleStreamLimit` for other ceilings.
+
 ## License {#license}
 
 BSD-3-Clause.
