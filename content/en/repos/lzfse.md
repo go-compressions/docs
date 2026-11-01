@@ -91,6 +91,12 @@ adversarial input — bad data returns an error rather than crashing. The packag
 ships a [Taskfile](https://taskfile.dev) (`task lint|build|test|ci`) used by both
 local development and CI; Renovate auto-merges patch/minor `gomod` updates.
 
+## Untrusted input {#untrusted-input}
+
+As of v0.6.0 every size a stream declares is checked before anything is
+allocated from it. `Decompress` is capped at `DefaultMaxOutput` (1 GiB),
+`DecompressLimit` sets another ceiling, and an excess returns `ErrTooLarge`.
+
 ## License {#license}
 
 BSD-3-Clause.

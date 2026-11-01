@@ -117,6 +117,14 @@ slower decode than the standard library.** If raw throughput on arbitrary data
 is the priority, `compress/flate` is still the better choice; the value here is a
 clean, fully-tested, SIMD-`matchlen` DEFLATE that interoperates with it exactly.
 
+## Untrusted input {#untrusted-input}
+
+As of v0.1.0 `NewReader` buffers a bounded amount whatever the stream says (a
+block yields to `Read` every 64 KiB of undelivered output), and `Inflate` stops
+at `DefaultMaxOutput` (1 GiB) with `ErrTooLarge`; `InflateLimit` sets another
+ceiling. A caller that collects a reader with `io.ReadAll` should still cap it
+with `io.LimitReader`: DEFLATE expands up to 1032:1.
+
 ## License {#license}
 
 BSD-3-Clause.
