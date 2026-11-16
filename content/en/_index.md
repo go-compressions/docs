@@ -52,6 +52,8 @@ The credibility is the honesty.
 | --- | --- | --- |
 | [`blake3`]({{< relref "repos/blake3.md" >}}) | BLAKE3 (unkeyed) | pure-Go, verified vs official vectors; **multi-core one-shot** + precomputed message schedule; **default build is SIMD on all 6 arches** (`mix4` via [go-asmgen](https://github.com/go-asmgen/asmgen)); optional `archsimd` path. Honest: hand-written AVX2 (`lukechampine`) still faster on a single core |
 | [`b3sum`]({{< relref "repos/b3sum.md" >}}) | BLAKE3 checksum CLI | reference-compatible `b3sum` (`<hex>  <name>`); `--check`, `--length`, `--no-names`; rides blake3's six-arch SIMD; ~1.5× end-to-end on a 1 GiB file vs the scalar build |
+| [`edonr`]({{< relref "repos/edonr.md" >}}) | Edon-R′ 512 (unkeyed and ZFS keyed) | pure-Go, **clean-room** BSD-3 implementation from the published specification, checked against the OpenZFS oracle; multi-buffer SIMD and multi-core hashing are being added; measured numbers in the README |
+| [`skein`]({{< relref "repos/skein.md" >}}) | Skein-512 (Skein 1.3), keyed | pure-Go port of the OpenZFS implementation, any output length, MAC key pre-processing; 1092 vectors generated from the OpenZFS C sources; measured numbers in the README |
 
 The `matchlen` SIMD common-prefix primitive that powers [`lz4`]({{< relref "repos/lz4.md" >}})'s
 match extension lives in the [go-simd](https://github.com/go-simd) family
