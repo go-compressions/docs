@@ -18,6 +18,11 @@ c := lz4.CompressBlock(src)
 out, _ := lz4.DecompressBlock(c, len(src))
 ```
 
+`DecodeBlock` (v0.5.1) is the allocation-free decoder: you pass the destination
+buffer, an asm fast path runs on amd64 and arm64, and on arm64 it is ahead of
+`liblz4`. It is the single LZ4 decoder used by
+[go-filesystems/zfs](https://github.com/go-filesystems/zfs) and squashfs.
+
 The compressor delegates LZ4's hot "count the matching bytes" inner loop
 (`LZ4_count`) to [`go-simd/matchlen`](https://github.com/go-simd/matchlen)
 (pinned at **v0.3.1**), whose SIMD common-prefix kernel makes match extension
