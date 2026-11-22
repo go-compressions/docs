@@ -18,6 +18,25 @@ c := lz4.CompressBlock(src)
 out, _ := lz4.DecompressBlock(c, len(src))
 ```
 
+### Reusable compressor state {#compressor-state}
+
+Since v0.6.0, `CompressBlock` used to allocate and zero a 256 KiB match table per call: 264,470 B
+and 2 allocations for a 4 KiB block. It now borrows a reusable state from a pool
+(1 allocation, the result). To own the state, or to compress into your own
+buffer:
+
+```go
+c := lz4.NewCompressor()                 // one per goroutine
+dst = c.AppendCompress(dst[:0], blk)     // 0 allocations when dst is big enough
+out := c.Compress(blk)                   // or a fresh slice
+```
+
+As in liblz4's `LZ4_resetStream_fast`, the table is never cleared between blocks
+(slots carry a generation offset) and, for inputs under 64 KiB, it is only as
+wide as the input needs. Output for small inputs may differ from earlier
+releases and decodes with every LZ4 decoder; it is checked against liblz4 1.11
+(`go test -tags liblz4`, cgo) and fuzzed.
+
 `DecodeBlock` (v0.5.1) is the allocation-free decoder: you pass the destination
 buffer, an asm fast path runs on amd64 and arm64, and on arm64 it is ahead of
 `liblz4`. It is the single LZ4 decoder used by
