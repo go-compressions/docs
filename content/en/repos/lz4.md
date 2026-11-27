@@ -7,7 +7,8 @@ weight: 40
 
 A clean pure-Go implementation of the **LZ4 block format** —
 `CompressBlock` / `DecompressBlock` — wire-compatible with the reference and
-cross-checked against `pierrec/lz4`. Blocks are mutually decodable with
+cross-checked against `pierrec/lz4`, plus (v0.7.0) the standard **`.lz4` frame**
+(`CompressFrame` / `DecompressFrame`). Blocks are mutually decodable with
 `pierrec` in **both** directions, verified on arm64 and amd64.
 [Repository →](https://github.com/go-compressions/lz4)
 
@@ -122,12 +123,43 @@ little ratio for speed; we make the opposite trade. The SIMD `matchlen`
 extension is correct and in use, but match extension is only ~10% of encode time
 here — the bottleneck is match-*finding*.
 
+## Standard LZ4 frame {#standard-frame}
+
+Since v0.7.0, the package reads and writes the standard LZ4 frame (`.lz4`, magic
+`0x184D2204`), the container `lz4(1)`, U-Boot (`uImage -C lz4`) and every LZ4
+library read
+([spec](https://github.com/lz4/lz4/blob/dev/doc/lz4_Frame_format.md)):
+
+```go
+f := lz4.CompressFrame(data)
+f = lz4.CompressFrameOptions(data, lz4.FrameOptions{ContentChecksum: true})
+out, err := lz4.DecompressFrame(f)             // up to 1 GiB
+out, err = lz4.DecompressFrameLimit(f, 64<<20) // ErrTooLarge past 64 MiB
+```
+
+`CompressFrame` is deterministic and writes **independent** blocks of up to
+4 MiB, the content size in the header, **no block or content checksum**, a
+header checksum and an end mark; a block that does not shrink is stored. That is
+exactly what U-Boot's `ulz4fn` accepts (it refuses linked blocks and reserved
+bits). `FrameOptions{ContentChecksum, BlockChecksum}` turns the checksums on.
+The consumer is `go-binfmt/fwimg`, which builds lz4-compressed uImage payloads
+for U-Boot.
+
+`DecompressFrame` also reads linked blocks, both checksums, concatenated and
+skippable frames. It returns `ErrFrame` for a bad magic, header checksum or
+reserved bits, a dictionary frame, a block past the declared maximum, a content
+size that disagrees with the content, and truncation. A declared content size
+never drives an allocation by itself: a `1<<62` header on a 20-byte frame
+allocates nothing. The format is checked against `lz4(1)` in both directions
+(every level, linked and independent blocks, every block size, all checksums),
+against `pierrec/lz4`'s frame code and against XXH32 vectors, and fuzzed.
+
 ## Untrusted input {#untrusted-input}
 
 As of v0.4.0 every size taken from the input is bounded before anything is
 allocated from it. A block can expand 255:1, so `DecompressBlock` stops at
 `DefaultMaxOutput` (1 GiB) with `ErrTooLarge`; `DecompressBlockLimit` sets
-another ceiling. Apple frames are bounded by `DefaultMaxBlock` (16 MiB), with
+another ceiling; `DecompressFrameLimit` does the same for standard frames. Apple frames are bounded by `DefaultMaxBlock` (16 MiB), with
 `DecompressAppleLimit` and `DecompressAppleStreamLimit` for other ceilings.
 
 ## License {#license}
